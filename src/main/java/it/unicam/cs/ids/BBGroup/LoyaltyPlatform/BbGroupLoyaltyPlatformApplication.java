@@ -9,6 +9,10 @@ public class BbGroupLoyaltyPlatformApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BbGroupLoyaltyPlatformApplication.class, args);
 		System.out.println("Aiutoooooooooooooooo");
+
+		System.out.println("Top");
+
+
 	}
 
 }
