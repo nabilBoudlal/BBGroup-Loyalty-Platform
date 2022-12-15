@@ -1,8 +1,19 @@
 package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.Hibernate;
+
+import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Table(name = "costumer_wallet")
 public class CostumerWallet {
     @Id
@@ -19,28 +30,20 @@ public class CostumerWallet {
     private FidelityCard fidelityCard;
 
 
-
-    public CostumerWallet() {
-    }
-
     public CostumerWallet(FidelityCard fidelityCard) {
         this.fidelityCard = fidelityCard;
     }
 
-    public Long getWalletId() {
-        return walletId;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        CostumerWallet that = (CostumerWallet) o;
+        return walletId != null && Objects.equals(walletId, that.walletId);
     }
 
-    public void setWalletId(Long walletId) {
-        this.walletId = walletId;
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
-
-    public FidelityCard getFidelityCard() {
-        return fidelityCard;
-    }
-
-    public void setFidelityCard(FidelityCard fidelityCard) {
-        this.fidelityCard = fidelityCard;
-    }
-
 }

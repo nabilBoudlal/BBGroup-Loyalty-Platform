@@ -1,11 +1,19 @@
 package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import org.hibernate.Hibernate;
 
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@Getter
+@Setter
+@RequiredArgsConstructor
 @Table(name = "fidelity_card")
 public class FidelityCard {
     @Id
@@ -26,33 +34,23 @@ public class FidelityCard {
     @OneToOne(mappedBy = "fidelityCard", orphanRemoval = true)
     private CostumerWallet costumerWallet;
 
-    public CostumerWallet getCostumerWallet() {
-        return costumerWallet;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        FidelityCard that = (FidelityCard) o;
+        return fidelityCardId != null && Objects.equals(fidelityCardId, that.fidelityCardId);
     }
 
-
-
-
-
-    public void setCostumerWallet(CostumerWallet costumerWallet) {
-        this.costumerWallet = costumerWallet;
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
-
-
-    public Set<LoyaltyProgram> getLoyaltyPrograms() {
-        return loyaltyPrograms;
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "(" +
+                "fidelityCardId = " + fidelityCardId + ", " +
+                "costumerWallet = " + costumerWallet + ")";
     }
-
-    public void setLoyaltyPrograms(Set<LoyaltyProgram> loyaltyPrograms) {
-        this.loyaltyPrograms = loyaltyPrograms;
-    }
-
-    public Long getFidelityCardId() {
-        return fidelityCardId;
-    }
-
-    public void setFidelityCardId(Long fidelityCardId) {
-        this.fidelityCardId = fidelityCardId;
-    }
-
 }

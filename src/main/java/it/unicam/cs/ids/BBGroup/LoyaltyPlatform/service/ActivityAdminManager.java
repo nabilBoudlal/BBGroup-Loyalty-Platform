@@ -4,4 +4,5 @@ import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.ActivityAdmin;
 
 public interface ActivityAdminManager extends EntityManager<ActivityAdmin, Long>{
 
+   ActivityAdmin findAdminByEmail(String email);
 }

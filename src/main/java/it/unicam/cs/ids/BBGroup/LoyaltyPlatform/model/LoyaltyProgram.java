@@ -1,6 +1,9 @@
 package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.hibernate.Hibernate;
 
 import java.util.LinkedHashSet;
@@ -8,6 +11,9 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@Getter
+@Setter
+@RequiredArgsConstructor
 @Table(name = "loyalty_program")
 public class LoyaltyProgram {
     @Id
@@ -38,9 +44,6 @@ public class LoyaltyProgram {
     @OneToMany(mappedBy = "loyaltyProgram", orphanRemoval = true)
     private Set<Activity> activities = new LinkedHashSet<>();
 
-    public LoyaltyProgram() {
-    }
-
 
     public LoyaltyProgram(String programName, ActivityAdmin activityAdmin, Set<FidelityCard> fidelityCards, Set<Activity> activities) {
         this.programName = programName;
@@ -49,62 +52,7 @@ public class LoyaltyProgram {
         this.activities = activities;
     }
 
-    public Set<Activity> getActivities() {
-        return activities;
-    }
 
-    public void setActivities(Set<Activity> activities) {
-        this.activities = activities;
-    }
-
-    public Set<FidelityCard> getFidelityCards() {
-        return fidelityCards;
-    }
-
-    public void setFidelityCards(Set<FidelityCard> fidelityCards) {
-        this.fidelityCards = fidelityCards;
-    }
-
-
-    public Long getLoyaltyProgramId() {
-        return loyaltyProgramId;
-    }
-
-    public void setLoyaltyProgramId(Long loyaltyProgramId) {
-        this.loyaltyProgramId = loyaltyProgramId;
-    }
-
-    public String getProgramName() {
-        return programName;
-    }
-
-    public void setProgramName(String programName) {
-        this.programName = programName;
-    }
-
-    public int getMultiplier() {
-        return multiplier;
-    }
-
-    public void setMultiplier(int multiplier) {
-        this.multiplier = multiplier;
-    }
-
-    public int getThresholdCounter() {
-        return thresholdCounter;
-    }
-
-    public void setThresholdCounter(int thresholdCounter) {
-        this.thresholdCounter = thresholdCounter;
-    }
-
-    public ActivityAdmin getActivityAdmin() {
-        return activityAdmin;
-    }
-
-    public void setActivityAdmin(ActivityAdmin activityAdmin) {
-        this.activityAdmin = activityAdmin;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -117,5 +65,15 @@ public class LoyaltyProgram {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "(" +
+                "loyaltyProgramId = " + loyaltyProgramId + ", " +
+                "programName = " + programName + ", " +
+                "multiplier = " + multiplier + ", " +
+                "thresholdCounter = " + thresholdCounter + ", " +
+                "activityAdmin = " + activityAdmin + ")";
     }
 }

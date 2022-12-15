@@ -35,4 +35,9 @@ public class SimpleActivityAdminManager implements ActivityAdminManager{
     public boolean exists(Long id) {
         return false;
     }
+
+    @Override
+    public ActivityAdmin findAdminByEmail(String email) {
+        return activityAdminRepository.findByEmail(email);
+    }
 }

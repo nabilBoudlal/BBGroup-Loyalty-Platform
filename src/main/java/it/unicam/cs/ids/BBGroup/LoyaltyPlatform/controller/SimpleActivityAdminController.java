@@ -36,4 +36,6 @@ public class SimpleActivityAdminController implements ActivityAdminController{
     public boolean exists(Long id) {
         return false;
     }
+
+
 }
