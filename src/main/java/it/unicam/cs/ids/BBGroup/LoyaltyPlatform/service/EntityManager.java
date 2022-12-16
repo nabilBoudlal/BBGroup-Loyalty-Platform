@@ -1,5 +1,11 @@
 package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service;
 
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.EntityNotFoundException;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 /**
  *  An interface that defines the CRUD operations for a generic entity.
  */
@@ -12,7 +18,7 @@ public interface EntityManager <T,I extends Number>{
          * @param id The id of the entity to be retrieved.
          * @return An instance of the class that implements this interface.
          */
-        T getInstance( I id) ;
+        T getInstance(@Valid @NotNull @NotBlank I id) throws EntityNotFoundException;
 
 
         /**
@@ -21,7 +27,7 @@ public interface EntityManager <T,I extends Number>{
          * @param object The object to be created.
          * @return The object that was created.
          */
-        T create(T object);
+        T create(T object) throws EntityNotFoundException, IdConflictException;
 
 
         /**

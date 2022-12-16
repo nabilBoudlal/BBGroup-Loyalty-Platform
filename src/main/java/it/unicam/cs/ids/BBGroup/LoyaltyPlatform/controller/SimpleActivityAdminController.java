@@ -1,5 +1,7 @@
 package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.controller;
 
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.EntityNotFoundException;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.ActivityAdmin;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service.ActivityAdminManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +14,13 @@ public class SimpleActivityAdminController implements ActivityAdminController{
     private ActivityAdminManager activityAdminManager;
     @Override
     @GetMapping("/{id}")
-    public ActivityAdmin getInstance(@PathVariable Long id) {
+    public ActivityAdmin getInstance(@PathVariable Long id) throws EntityNotFoundException {
         return activityAdminManager.getInstance(id);
     }
 
     @Override
     @PostMapping("/createNew")
-    public ActivityAdmin create(@RequestBody ActivityAdmin object) {
+    public ActivityAdmin create(@RequestBody ActivityAdmin object) throws IdConflictException, EntityNotFoundException {
         return activityAdminManager.create(object);
     }
 

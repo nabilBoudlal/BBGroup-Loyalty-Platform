@@ -1,5 +1,8 @@
 package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.controller;
 
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.EntityNotFoundException;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
+
 public interface EntityController<T, I>{
     /**
      * > This function returns an instance of type T, given an id of type I
@@ -7,7 +10,7 @@ public interface EntityController<T, I>{
      * @param id The id of the entity to be retrieved.
      * @return An instance of the class that implements this interface.
      */
-    T getInstance( I id) ;
+    T getInstance( I id) throws EntityNotFoundException;
 
 
     /**
@@ -16,7 +19,7 @@ public interface EntityController<T, I>{
      * @param object The object to be created.
      * @return The object that was created.
      */
-    T create(T object);
+    T create(T object) throws EntityNotFoundException, IdConflictException;
 
 
     /**

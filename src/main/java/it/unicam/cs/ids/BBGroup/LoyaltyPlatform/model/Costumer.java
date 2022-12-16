@@ -29,8 +29,10 @@ public class Costumer implements User{
 
     private String surname;
 
+    @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false, unique = true)
     private String phone;
 
 

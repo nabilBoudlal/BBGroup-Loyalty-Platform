@@ -1,5 +1,7 @@
 package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service;
 
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.EntityNotFoundException;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.Activity;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.ActivityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +16,13 @@ public class SimpleActivityManager implements ActivityManager{
     @Autowired
     private ActivityAdminManager adminManager;
     @Override
-    public Activity getInstance(Long id) {
-        return activityRepository.findById(id).orElseThrow();
+    public Activity getInstance(Long id) throws EntityNotFoundException {
+        return activityRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Non c'è un'attività con questo Id"));
     }
 
     @Override
-    public Activity create(Activity object) {
+    public Activity create(Activity object) throws EntityNotFoundException, IdConflictException{
         return activityRepository.save(object);
     }
 
