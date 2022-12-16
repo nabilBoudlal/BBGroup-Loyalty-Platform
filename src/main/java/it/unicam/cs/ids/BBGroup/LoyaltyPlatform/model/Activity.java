@@ -1,6 +1,10 @@
 package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -27,16 +31,25 @@ public class Activity {
 
     private String address;
 
+    @Column(nullable = false, unique = true)
+    @NotNull
+    @NotEmpty
     private String vatCode;
-
+    @Column(nullable = false, unique = true)
+    @Email
+    @NotEmpty
+    @NotNull
     private String email;
 
     private String phone;
 
+    @NotEmpty
+    @Column(nullable = false, unique = true)
     private String adminEmail;
 
+
     @OneToOne(orphanRemoval = true)
-    @JoinColumn(name = "activity_admin_activity_admin_id")
+    @JoinColumn(name = "activity_admin_activity_admin_id", unique = true)
     private ActivityAdmin activityAdmin;
 
     @ManyToOne
@@ -54,6 +67,7 @@ public class Activity {
         this.activityAdmin = activityAdmin;
         this.loyaltyProgram = loyaltyProgram;
     }
+    
 
     public Activity(String name, String address, String vatCode, String email, String phone, String adminEmail) {
         this.name = name;

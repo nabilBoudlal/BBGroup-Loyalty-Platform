@@ -37,7 +37,7 @@ public interface EntityController<T, I>{
      * @param id The id of the object to delete.
      * @return A boolean value.
      */
-    boolean delete(I id);
+    boolean delete(I id) throws IdConflictException, EntityNotFoundException;
 
     /**
      * Returns true if the object with the given id exists in the database.

@@ -1,6 +1,7 @@
 package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -34,8 +35,11 @@ public class ActivityAdmin implements Employee {
 
     private String surname;
 
+    @Column(nullable = false, unique = true)
+    @NotEmpty(message = "Inserire email")
     private String email;
 
+    @Column(nullable = false, unique = true)
     private String phone;
 
     private final UserType userType = UserType.ACTIVITY_ADMIN;

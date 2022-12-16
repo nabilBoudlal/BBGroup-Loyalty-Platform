@@ -30,8 +30,9 @@ public class SimpleActivityController implements ActivityController{
     }
 
     @Override
-    public boolean delete(Long id) {
-        return false;
+    @DeleteMapping("/deleteActivity/{id}")
+    public boolean delete(@PathVariable Long id) throws IdConflictException, EntityNotFoundException {
+        return activityManager.delete(id);
     }
 
     @Override
@@ -41,7 +42,7 @@ public class SimpleActivityController implements ActivityController{
 
     @Override
     @PostMapping("/createNewWithAdmin")
-    public Activity createActivityWithAdmin(@RequestBody Activity activity) {
+    public Activity createActivityWithAdmin(@RequestBody Activity activity) throws IdConflictException, EntityNotFoundException {
         return activityManager.createActivityWithAdminEmail(activity);
     }
 }

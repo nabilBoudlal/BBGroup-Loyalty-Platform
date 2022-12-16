@@ -30,8 +30,9 @@ public class SimpleActivityAdminController implements ActivityAdminController{
     }
 
     @Override
-    public boolean delete(Long id) {
-        return false;
+    @DeleteMapping("/deleteAdmin/{id}")
+    public boolean delete(@PathVariable Long id) throws IdConflictException, EntityNotFoundException {
+        return activityAdminManager.delete(id);
     }
 
     @Override
