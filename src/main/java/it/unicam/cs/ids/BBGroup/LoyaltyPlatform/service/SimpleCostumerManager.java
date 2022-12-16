@@ -3,7 +3,9 @@ package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.EntityNotFoundException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.Costumer;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.CostumerWallet;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.CostumerRepository;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.CostumerWalletRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,6 +21,9 @@ public class SimpleCostumerManager implements CostumerManager{
     @Autowired
     private CostumerRepository costumerRepository;
 
+    @Autowired
+    private CostumerWalletRepository walletRepository;
+
     @Override
     public Costumer getInstance(@Valid @NotNull Long id) throws EntityNotFoundException {
         return costumerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Nessun cliente con l'Id inserito"+id));
@@ -28,6 +33,8 @@ public class SimpleCostumerManager implements CostumerManager{
     public Costumer create(Costumer object) throws EntityNotFoundException, IdConflictException{
         checkFieldsAreNotNull(object);
         checkCostumer(object);
+        CostumerWallet wallet= new CostumerWallet();
+        object.setCostumerWallet(walletRepository.save(wallet));
         return costumerRepository.save(object);
     }
 

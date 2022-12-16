@@ -4,6 +4,7 @@ import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.EntityNotFoundExceptio
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.Costumer;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.CostumerRepository;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.CostumerWalletRepository;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service.CostumerManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,8 @@ public class SimpleCostumerController implements CostumerController{
     private CostumerManager costumerManager;
     @Autowired
     private CostumerRepository costumerRepository;
+    @Autowired
+    private CostumerWalletRepository costumerWalletRepository;
 
     @Override
     @GetMapping("/{id}")
@@ -44,5 +47,10 @@ public class SimpleCostumerController implements CostumerController{
     @GetMapping("/exists/{id}")
     public boolean exists(@PathVariable  Long id) {
         return costumerManager.exists(id);
+    }
+
+    @GetMapping("/costumerEmail/{emailCostumer}")
+    public Costumer findCostumerByEmail(@PathVariable String emailCostumer){
+        return costumerRepository.findByEmail(emailCostumer);
     }
 }

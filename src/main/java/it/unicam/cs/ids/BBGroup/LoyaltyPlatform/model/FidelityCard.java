@@ -2,6 +2,7 @@ package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
@@ -16,6 +17,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Table(name = "fidelity_card")
 public class FidelityCard {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "fidelity_card_seq")
     @SequenceGenerator(
@@ -34,6 +36,9 @@ public class FidelityCard {
     @OneToOne(mappedBy = "fidelityCard", orphanRemoval = true)
     private CostumerWallet costumerWallet;
 
+    public FidelityCard(CostumerWallet costumerWallet){
+        this.costumerWallet=costumerWallet;
+    }
 
     @Override
     public boolean equals(Object o) {
