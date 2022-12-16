@@ -29,17 +29,20 @@ public class SimpleCostumerController implements CostumerController{
     }
 
     @Override
-    public Costumer update(Costumer object) {
-        return null;
+    @PostMapping("/update")
+    public Costumer update(@RequestBody Costumer object) throws IdConflictException, EntityNotFoundException {
+        return costumerManager.update(object);
     }
 
     @Override
-    public boolean delete(Long id) {
-        return false;
+    @DeleteMapping("/delete/{id}")
+    public boolean delete(@PathVariable Long id) throws IdConflictException, EntityNotFoundException {
+        return costumerManager.delete(id);
     }
 
     @Override
-    public boolean exists(Long id) {
-        return false;
+    @GetMapping("/exists/{id}")
+    public boolean exists(@PathVariable  Long id) {
+        return costumerManager.exists(id);
     }
 }

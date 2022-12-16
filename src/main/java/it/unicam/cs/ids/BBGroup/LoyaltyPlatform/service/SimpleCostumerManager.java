@@ -11,44 +11,53 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.Objects;
+
 @Validated
 @Service
 public class SimpleCostumerManager implements CostumerManager{
     @Autowired
     private CostumerRepository costumerRepository;
+
     @Override
-    public Costumer getInstance(@Valid @NotNull @NotBlank Long id) throws EntityNotFoundException {
-        return costumerRepository.findById(id).orElseThrow(()
-                -> new EntityNotFoundException("Nessun cliente con l'Id inserito"+id));
+    public Costumer getInstance(@Valid @NotNull Long id) throws EntityNotFoundException {
+        return costumerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Nessun cliente con l'Id inserito"+id));
     }
 
     @Override
     public Costumer create(Costumer object) throws EntityNotFoundException, IdConflictException{
+        checkFieldsAreNotNull(object);
         checkCostumer(object);
         return costumerRepository.save(object);
     }
 
     @Override
-    public Costumer update(Costumer object) {
-        return null;
+    public Costumer update(Costumer object) throws EntityNotFoundException, IdConflictException {
+     if(!costumerRepository.existsByEmail(object.getEmail())) throw new EntityNotFoundException("Nessun cliente con email: "+object.getEmail()+" presente");
+     return costumerRepository.save(object);
     }
 
     @Override
-    public boolean delete(Long id) {
-        return false;
+    public boolean delete(Long id) throws EntityNotFoundException {
+        if(!this.exists(id)) throw new EntityNotFoundException("Nessun cliente con id: "+id+" presente");
+        costumerRepository.deleteById(id);
+        return !this.exists(id);
     }
 
     @Override
     public boolean exists(Long id) {
-        return false;
+        return costumerRepository.existsByCostumerId(id);
     }
 
     private void checkCostumer(Costumer costumer) throws EntityNotFoundException, IdConflictException {
-        if(costumerRepository.existsByEmail(costumer.getEmail())) {
-            throw new IdConflictException("Non è possibile creare un utente senza email " +costumer.getEmail());
-        }
-        if(costumerRepository.existsByPhone(costumer.getPhone())) {
-            throw new EntityNotFoundException("Nessun cliente trovato con il telefono "+costumer.getPhone());
-        }
+        if(costumerRepository.existsByEmail(costumer.getEmail()))
+            throw new IdConflictException("Un cliente con email " +costumer.getEmail()+" è già presente");
+        if(costumerRepository.existsByPhone(costumer.getPhone()))
+            throw new IdConflictException("Un cliente con telefono " +costumer.getPhone()+" è già presente");
+    }
+
+    private void checkFieldsAreNotNull(Costumer costumer) throws NullPointerException{
+        Objects.requireNonNull(costumer.getEmail(), "Inserire email valida");
+        Objects.requireNonNull(costumer.getPhone(),"Inserire telefono valido");
     }
 }

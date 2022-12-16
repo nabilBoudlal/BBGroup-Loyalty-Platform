@@ -37,7 +37,7 @@ public interface EntityManager <T,I extends Number>{
          * @param object The object to be updated.
          * @return The object that was updated.
          */
-        T update(T object) ;
+        T update(T object) throws EntityNotFoundException, IdConflictException;
 
 
         /**

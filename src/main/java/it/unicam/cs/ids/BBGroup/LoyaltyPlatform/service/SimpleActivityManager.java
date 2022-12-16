@@ -16,6 +16,7 @@ import java.util.Objects;
 public class SimpleActivityManager implements ActivityManager{
     @Autowired
     private ActivityRepository activityRepository;
+
     @Autowired
     private ActivityAdminManager adminManager;
 
@@ -33,14 +34,19 @@ public class SimpleActivityManager implements ActivityManager{
         return activityRepository.save(object);
     }
 
+    //Bisogna capire perchè non funziona, non salva nulla perchè dice che è già presente oggetto con stessa mail
+    //bisogna fare un controllo a mano sui parametri che cambiano davvero e fare update di questi ?
     @Override
-    public Activity update(Activity object) {
-        return null;
+    public Activity update(Activity object) throws EntityNotFoundException, IdConflictException {
+        if(!activityRepository.existsByEmail(object.getEmail())) throw new EntityNotFoundException("Nessuna attività con nome: "+object.getName()+" trovata");
+        return activityRepository.save(object);
     }
 
+    //cancella anche l'admin che ha creato l'activity
     @Override
     public boolean delete(Long id) throws EntityNotFoundException, IdConflictException {
         if(!this.exists(id)) throw new EntityNotFoundException("Nessuna attività con id: "+id+"trovata");
+        this.getInstance(id).getActivityAdmin().setActivity(null); //tolgo il collegamento fra admin e attività
         activityRepository.deleteByActivityId(id);
         return !this.exists(id);
     }

@@ -29,8 +29,9 @@ public class SimpleActivityAdminManager implements ActivityAdminManager{
     }
 
     @Override
-    public ActivityAdmin update(ActivityAdmin object) {
-        return null;
+    public ActivityAdmin update(ActivityAdmin object) throws EntityNotFoundException, IdConflictException {
+        if(! activityAdminRepository.existsByEmail(object.getEmail())) throw new EntityNotFoundException("Nessun admin con email: "+object.getActivityAdminId()+" trovato");
+        return activityAdminRepository.save(object);
     }
 
     @Override

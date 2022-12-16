@@ -1,7 +1,9 @@
 package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -37,6 +39,11 @@ public class ActivityAdmin implements Employee {
 
     @Column(nullable = false, unique = true)
     @NotEmpty(message = "Inserire email")
+    @Pattern(regexp = "[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
+            + "[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
+            + "(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\\.)+[A-Za-z0-9]"
+            + "(?:[A-Za-z0-9-]*[A-Za-z0-9])?",
+            message = "{invalid.email}")
     private String email;
 
     @Column(nullable = false, unique = true)

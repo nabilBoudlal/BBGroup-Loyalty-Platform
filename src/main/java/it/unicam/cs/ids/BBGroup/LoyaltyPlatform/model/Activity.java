@@ -1,10 +1,7 @@
 package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -36,9 +33,12 @@ public class Activity {
     @NotEmpty
     private String vatCode;
     @Column(nullable = false, unique = true)
-    @Email
-    @NotEmpty
-    @NotNull
+    @NotEmpty(message = "Inserire email")
+    @Pattern(regexp = "[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
+            + "[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
+            + "(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\\.)+[A-Za-z0-9]"
+            + "(?:[A-Za-z0-9-]*[A-Za-z0-9])?",
+            message = "{invalid.email}")
     private String email;
 
     private String phone;
