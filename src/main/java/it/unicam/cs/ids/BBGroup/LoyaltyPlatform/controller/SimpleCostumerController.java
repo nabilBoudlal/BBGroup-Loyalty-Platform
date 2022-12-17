@@ -50,7 +50,7 @@ public class SimpleCostumerController implements CostumerController{
     }
 
     @GetMapping("/costumerEmail/{emailCostumer}")
-    public Costumer findCostumerByEmail(@PathVariable String emailCostumer){
+    public Costumer findCostumerByEmail(@PathVariable String emailCostumer) throws EntityNotFoundException {
         return costumerRepository.findByEmail(emailCostumer);
     }
 }

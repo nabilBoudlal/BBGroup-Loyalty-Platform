@@ -47,8 +47,8 @@ public class SimpleFidelityCardController implements FidelityCardController{
     }
 
     @Override
-    @PostMapping("/createNewNoLoyalty")
-    public FidelityCard createWithoutLoyaltyProgram(@RequestBody String costumerEmail) throws Exception {
+    @PostMapping("/createNewNoLoyalty/{costumerEmail}")
+    public FidelityCard createWithoutLoyaltyProgram(@PathVariable String costumerEmail) throws Exception {
         return cardManager.createWithoutLoyaltyProgram(costumerEmail);
     }
 }

@@ -3,6 +3,8 @@ package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.controller;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.EntityNotFoundException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.CostumerWallet;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.FidelityCard;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.CostumerRepository;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service.CostumerManager;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service.CostumerWalletManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +19,10 @@ public class SimpleCostumerWalletController implements CostumerWalletController{
 
     @Autowired
     private CostumerWalletManager walletManager;
-
     @Autowired
     private CostumerManager costumerManager;
+    @Autowired
+    private CostumerRepository costumerRepository;
 
     @Override
     @GetMapping("/{id}")
@@ -47,4 +50,6 @@ public class SimpleCostumerWalletController implements CostumerWalletController{
     public boolean exists(Long id) {
         return false;
     }
+
+
 }

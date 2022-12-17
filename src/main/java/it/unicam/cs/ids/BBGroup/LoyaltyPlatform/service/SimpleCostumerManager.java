@@ -4,8 +4,10 @@ import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.EntityNotFoundExceptio
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.Costumer;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.CostumerWallet;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.FidelityCard;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.CostumerRepository;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.CostumerWalletRepository;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.FidelityCardRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.HashSet;
 import java.util.Objects;
 
 @Validated
@@ -20,9 +23,13 @@ import java.util.Objects;
 public class SimpleCostumerManager implements CostumerManager{
     @Autowired
     private CostumerRepository costumerRepository;
-
     @Autowired
     private CostumerWalletRepository walletRepository;
+    @Autowired
+    private FidelityCardRepository fidelityCardRepository;
+    @Autowired
+    private SimpleCostumerWalletManager walletManager;
+
 
     @Override
     public Costumer getInstance(@Valid @NotNull Long id) throws EntityNotFoundException {
@@ -35,6 +42,7 @@ public class SimpleCostumerManager implements CostumerManager{
         checkCostumer(object);
         CostumerWallet wallet= new CostumerWallet();
         object.setCostumerWallet(walletRepository.save(wallet));
+        object.getCostumerWallet().setFidelityCard(fidelityCardRepository.save(new FidelityCard()));
         return costumerRepository.save(object);
     }
 
@@ -67,4 +75,8 @@ public class SimpleCostumerManager implements CostumerManager{
         Objects.requireNonNull(costumer.getEmail(), "Inserire email valida");
         Objects.requireNonNull(costumer.getPhone(),"Inserire telefono valido");
     }
+
+    public void createNewBlankFidelityCard(String costumerEmail) throws EntityNotFoundException{
+    }
+
 }

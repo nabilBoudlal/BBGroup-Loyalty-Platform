@@ -22,9 +22,13 @@ public class SimpleFidelityCardManager implements FidelityCardManager {
     @Autowired
     private CostumerRepository costumerRepository;
     @Autowired
+    private SimpleCostumerManager costumerManager;
+
+    @Autowired
     private CostumerWalletRepository costumerWalletRepository;
     @Autowired
     private SimpleCostumerController costumerController;
+    private SimpleCostumerWalletManager costumerWalletManager;
 
     @Override
     public FidelityCard getInstance(Long id) throws EntityNotFoundException {
@@ -61,7 +65,6 @@ public class SimpleFidelityCardManager implements FidelityCardManager {
     //sta cosa non funziona :(
     @Override
     public FidelityCard createWithoutLoyaltyProgram(String costumerEmail) throws Exception {
-        // TODO: 16/12/2022
         return null;
     }
 }
