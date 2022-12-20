@@ -22,8 +22,9 @@ public class SimpleFidelityCardController implements FidelityCardController{
 
     @Override
     public FidelityCard create(FidelityCard object) throws EntityNotFoundException, IdConflictException {
-        return null;
+        return cardManager.create(object);
     }
+
 
     @Override
     public FidelityCard update(FidelityCard object) throws IdConflictException, EntityNotFoundException {
@@ -40,15 +41,5 @@ public class SimpleFidelityCardController implements FidelityCardController{
         return false;
     }
 
-    @Override
-    @PostMapping("/createNewLoyalty")
-    public FidelityCard createWithLoyaltyProgram(String costumerEmail, String loyaltyProgramName) {
-        return null;
-    }
 
-    @Override
-    @PostMapping("/createNewNoLoyalty/{costumerEmail}")
-    public FidelityCard createWithoutLoyaltyProgram(@PathVariable String costumerEmail) throws Exception {
-        return cardManager.createWithoutLoyaltyProgram(costumerEmail);
-    }
 }
