@@ -47,6 +47,4 @@ public class SimpleCostumerWalletManager implements CostumerWalletManager{
         return false;
     }
 
-
-
 }

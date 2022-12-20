@@ -9,13 +9,11 @@ import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.CostumerRepository;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.CostumerWalletRepository;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.FidelityCardRepository;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.HashSet;
 import java.util.Objects;
 
 @Validated

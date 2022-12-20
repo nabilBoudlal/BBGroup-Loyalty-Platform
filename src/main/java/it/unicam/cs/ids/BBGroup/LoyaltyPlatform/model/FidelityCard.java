@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.Hibernate;
 
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -35,6 +36,9 @@ public class FidelityCard {
 
     @OneToOne(mappedBy = "fidelityCard", orphanRemoval = true)
     private CostumerWallet costumerWallet;
+    @ElementCollection
+    @MapKey
+    private Map<LoyaltyProgram, Transaction> map;
 
     public FidelityCard(CostumerWallet costumerWallet){
         this.costumerWallet=costumerWallet;
