@@ -4,6 +4,7 @@ import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.EntityNotFoundExceptio
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.Transaction;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.FidelityCardRepository;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.LoyaltyProgramRepository;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,8 @@ public class SimpleTransactionManager implements TransactionManager{
 
     @Autowired
     private FidelityCardManager cardManager;
+    @Autowired
+    private LoyaltyProgramRepository loyaltyProgramRepository;
 
 
     @Override
@@ -28,6 +31,7 @@ public class SimpleTransactionManager implements TransactionManager{
 
     @Override
     public Transaction create(Transaction object) throws EntityNotFoundException, IdConflictException {
+        object.setLoyaltyProgram(loyaltyProgramRepository.findByProgramName(object.getProgramName()));
         return transactionRepository.save(object);
     }
 
@@ -38,12 +42,13 @@ public class SimpleTransactionManager implements TransactionManager{
 
     @Override
     public boolean delete(Long id) throws EntityNotFoundException, IdConflictException {
-        return false;
+        transactionRepository.deleteById(id);
+        return ! this.exists(id);
     }
 
     @Override
     public boolean exists(Long id) {
-        return false;
+        return transactionRepository.existsById(id);
     }
 
 }

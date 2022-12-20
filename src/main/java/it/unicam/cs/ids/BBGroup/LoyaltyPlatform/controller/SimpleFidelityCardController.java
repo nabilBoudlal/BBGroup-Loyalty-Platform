@@ -16,7 +16,7 @@ public class SimpleFidelityCardController implements FidelityCardController{
 
     @Override
     @GetMapping("/{id}")
-    public FidelityCard getInstance(Long id) throws EntityNotFoundException {
+    public FidelityCard getInstance(@PathVariable Long id) throws EntityNotFoundException {
         return cardManager.getInstance(id);
     }
 
@@ -39,6 +39,10 @@ public class SimpleFidelityCardController implements FidelityCardController{
     @Override
     public boolean exists(Long id) {
         return false;
+    }
+    @PostMapping("/enrollCard/{programName}/{cardId}")
+    public void enrollCardToLoyaltyProgram(@PathVariable String programName, @PathVariable Long cardId) throws EntityNotFoundException{
+        cardManager.enrollCardToLoyaltyProgram(programName,cardId);
     }
 
 

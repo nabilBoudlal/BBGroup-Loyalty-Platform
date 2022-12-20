@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -27,6 +28,7 @@ public class FidelityCard {
 
 
     @OneToOne(mappedBy = "fidelityCard", orphanRemoval = true)
+    @JsonIgnore
     private CostumerWallet costumerWallet;
 
 
@@ -36,7 +38,10 @@ public class FidelityCard {
 
 
     @OneToMany(mappedBy = "fidelityCard", orphanRemoval = true)
+    @JsonIgnore
     private Set<Transaction> transactions = new LinkedHashSet<>();
+
+    private int totalPoints;
 
 
     public FidelityCard(CostumerWallet costumerWallet){
@@ -50,6 +55,8 @@ public class FidelityCard {
     public void addTransaction(Transaction transaction){
         transactions.add(transaction);
     }
+
+    public void addPoints(int pointsToAdd){this.totalPoints+= pointsToAdd;}
 
     @Override
     public boolean equals(Object o) {

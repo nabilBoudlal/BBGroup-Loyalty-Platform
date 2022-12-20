@@ -2,7 +2,6 @@ package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
@@ -43,9 +42,8 @@ public abstract class LoyaltyRule {
      * transaction
      *
      * @param transaction The transaction object that is being processed.
-     * @return The return value is the number of times the rule was applied.
      */
-    abstract int applyRule(Transaction transaction);
+    public abstract void applyRule(Transaction transaction, FidelityCard card);
 
     @Override
     public boolean equals(Object o) {

@@ -7,6 +7,7 @@ import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.FidelityCard;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.CostumerRepository;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.CostumerWalletRepository;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.FidelityCardRepository;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.LoyaltyProgramRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -27,6 +28,8 @@ public class SimpleFidelityCardManager implements FidelityCardManager {
     @Autowired
     private SimpleCostumerController costumerController;
     private SimpleCostumerWalletManager costumerWalletManager;
+    @Autowired
+    private LoyaltyProgramRepository loyaltyProgramRepository;
 
     @Override
     public FidelityCard getInstance(Long id) throws EntityNotFoundException {
@@ -54,6 +57,10 @@ public class SimpleFidelityCardManager implements FidelityCardManager {
         return fidelityCardRepository.existsById(id);
     }
 
+    @Override
+    public void enrollCardToLoyaltyProgram(String programName, Long cardId) throws EntityNotFoundException {
+        this.getInstance(cardId).enrollCardToLoyaltyProgram(loyaltyProgramRepository.findByProgramName(programName));
+    }
 
 
 }

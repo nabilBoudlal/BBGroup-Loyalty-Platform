@@ -22,6 +22,8 @@ public class DefaultEarningPointRule extends LoyaltyRule{
     }
 
     @Override
-    public int applyRule(Transaction transaction){return pointsCalculator*transaction.getPrice();}
+    public void applyRule(Transaction transaction, FidelityCard card){
+       card.addPoints(pointsCalculator*transaction.getPrice());
+    }
 
 }

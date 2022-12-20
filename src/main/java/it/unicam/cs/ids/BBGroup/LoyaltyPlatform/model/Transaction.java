@@ -13,49 +13,37 @@ import java.util.Objects;
 @Getter
 @Setter
 public class Transaction {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "transaction_id", nullable = false)
     private Long transactionId;
 
-    private int price;
-
-    private boolean isValidated;
-
-
-
     @ManyToOne(optional = false)
     @JoinColumn(name = "loyalty_program_loyalty_program_id", nullable = false)
     private LoyaltyProgram loyaltyProgram;
 
+    private  String programName;
+
     @ManyToOne
     @JoinColumn(name = "fidelity_card_fidelity_card_id")
     private FidelityCard fidelityCard;
+    private int price;
 
-    public FidelityCard getFidelityCard() {
-        return fidelityCard;
+    private boolean isValidated = false;
+
+    public Transaction(LoyaltyProgram program, int price){
+        this.loyaltyProgram= program;
+        this.price=price;
+    }
+    public Transaction(String programName, int price){
+        this.programName= programName;
+        this.price=price;
     }
 
-    public void setFidelityCard(FidelityCard fidelityCard) {
-        this.fidelityCard = fidelityCard;
+    public void validate(){
+        this.isValidated=true;
     }
-
-    public LoyaltyProgram getLoyaltyProgram() {
-        return loyaltyProgram;
-    }
-
-    public void setLoyaltyProgram(LoyaltyProgram loyaltyProgram) {
-        this.loyaltyProgram = loyaltyProgram;
-    }
-
-    public Long getTransactionId() {
-        return transactionId;
-    }
-
-    public void setTransactionId(Long transactionId) {
-        this.transactionId = transactionId;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
