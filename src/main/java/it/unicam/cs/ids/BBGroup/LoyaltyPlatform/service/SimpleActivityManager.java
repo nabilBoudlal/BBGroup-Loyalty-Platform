@@ -3,6 +3,7 @@ package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.EntityNotFoundException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.Activity;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.ActivityAdmin;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.ActivityAdminRepository;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.ActivityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ public class SimpleActivityManager implements ActivityManager{
 
     @Override
     public Activity create(Activity object) throws EntityNotFoundException, IdConflictException{
+        checkIfFieldsAreNotNull(object);
+        checkActivity(object);
+        object.setActivityAdmin(activityAdminRepository.findByEmail(object.getAdminEmail()));
         return activityRepository.save(object);
     }
 
@@ -57,12 +61,15 @@ public class SimpleActivityManager implements ActivityManager{
     }
 
     @Override
-    public Activity createActivityWithAdminEmail(Activity activity) throws IdConflictException, EntityNotFoundException {
-        checkIfFieldsAreNotNull(activity);
-        checkActivity(activity);
-        activity.setActivityAdmin(activityAdminRepository.findByEmail(activity.getAdminEmail()));
-        return this.create(activity);
+    public Activity createWithAdmin(Activity object, String adminEmail) throws EntityNotFoundException, IdConflictException{
+        //checkIfFieldsAreNotNull(object);
+        //checkActivity(object);
+        object.setAdminEmail(adminEmail);
+        object.setActivityAdmin(activityAdminRepository.findByEmail(object.getAdminEmail()));
+        return activityRepository.save(object);
     }
+
+
 
     /**
      * It checks if the activity already exists in the database

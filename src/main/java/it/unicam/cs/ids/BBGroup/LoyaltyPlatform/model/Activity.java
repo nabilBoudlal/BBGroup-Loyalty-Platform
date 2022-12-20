@@ -1,5 +1,7 @@
 package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -43,17 +45,18 @@ public class Activity {
 
     private String phone;
 
-    @NotEmpty
-    @Column(nullable = false, unique = true)
+
     private String adminEmail;
 
 
     @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "activity_admin_activity_admin_id", unique = true)
+    @JsonBackReference
     private ActivityAdmin activityAdmin;
 
     @ManyToOne
     @JoinColumn(name = "loyalty_program_loyalty_program_id")
+    @JsonBackReference
     private LoyaltyProgram loyaltyProgram;
 
 
@@ -77,6 +80,7 @@ public class Activity {
         this.phone = phone;
         this.adminEmail = adminEmail;
     }
+
 
     @Override
     public boolean equals(Object o) {

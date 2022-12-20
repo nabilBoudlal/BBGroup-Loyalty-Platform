@@ -2,7 +2,11 @@ package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service;
 
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.EntityNotFoundException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.Activity;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.ActivityAdmin;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.LoyaltyProgram;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.ActivityAdminRepository;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.ActivityRepository;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.LoyaltyProgramRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +18,11 @@ public class SimpleLoyaltyProgramManager implements LoyaltyProgramManager {
 
     @Autowired
     private LoyaltyProgramRepository programRepository;
+    @Autowired
+    private ActivityAdminRepository activityAdminRepository;
+    @Autowired
+    private ActivityRepository activityRepository;
+
 
 
     @Override
@@ -24,6 +33,10 @@ public class SimpleLoyaltyProgramManager implements LoyaltyProgramManager {
 
     @Override
     public LoyaltyProgram create(LoyaltyProgram object) throws EntityNotFoundException, IdConflictException {
+        ActivityAdmin admin = activityAdminRepository.findByEmail(object.getCreatorEmail());
+        Activity activity= activityRepository.findByAdminEmail(admin.getEmail());
+        activity.setLoyaltyProgram(object);
+        object.setActivityAdmin(admin);
         return programRepository.save(object);
     }
 
@@ -41,4 +54,12 @@ public class SimpleLoyaltyProgramManager implements LoyaltyProgramManager {
     public boolean exists(Long id) {
         return false;
     }
+
+    @Override
+    public Activity enrollActivityToLoyaltyProgram(String programName, String adminEmail){
+        programRepository.findByProgramName(programName).enrollActivity(activityRepository.findByAdminEmail(adminEmail));
+        return activityRepository.findByAdminEmail(adminEmail);
+    }
+
+
 }

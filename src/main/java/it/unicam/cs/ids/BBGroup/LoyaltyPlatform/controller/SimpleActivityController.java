@@ -42,9 +42,9 @@ public class SimpleActivityController implements ActivityController{
         return activityManager.exists(id);
     }
 
-    @Override
-    @PostMapping("/createNewWithAdmin")
-    public Activity createActivityWithAdmin(@RequestBody Activity activity) throws IdConflictException, EntityNotFoundException {
-        return activityManager.createActivityWithAdminEmail(activity);
+    @PostMapping("/createNew/{adminEmail}")
+    public Activity createWithAdmin(@RequestBody Activity activity,@PathVariable String adminEmail) throws IdConflictException, EntityNotFoundException {
+       return activityManager.createWithAdmin(activity,adminEmail);
     }
+
 }

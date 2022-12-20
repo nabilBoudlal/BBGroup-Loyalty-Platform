@@ -5,5 +5,5 @@ import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.Activity;
 
 public interface ActivityController extends EntityController<Activity, Long>{
-    Activity createActivityWithAdmin(Activity activity) throws IdConflictException, EntityNotFoundException;
+
 }

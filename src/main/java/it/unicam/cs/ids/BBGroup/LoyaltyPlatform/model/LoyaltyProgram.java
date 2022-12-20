@@ -1,6 +1,9 @@
 package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -30,27 +33,44 @@ public class LoyaltyProgram {
 
     private String programName;
 
-    private int multiplier;
-
-    private int thresholdCounter;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "activity_admin_id", nullable = false)
+    @JsonBackReference
     private ActivityAdmin activityAdmin;
-
-    @ManyToMany(mappedBy = "loyaltyPrograms")
-    private Set<FidelityCard> fidelityCards = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "loyaltyProgram", orphanRemoval = true)
     private Set<Activity> activities = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy = "loyaltyProgram", orphanRemoval = true)
+    private Set<FidelityCard> fidelityCards = new LinkedHashSet<>();
 
-    public LoyaltyProgram(String programName, ActivityAdmin activityAdmin, Set<FidelityCard> fidelityCards, Set<Activity> activities) {
+    @OneToMany(mappedBy = "loyaltyProgram", orphanRemoval = true)
+    private Set<LoyaltyRule> loyaltyRules = new LinkedHashSet<>();
+
+    private String creatorEmail;
+
+
+    public LoyaltyProgram(String programName, ActivityAdmin activityAdmin, int pointsCalculator) {
         this.programName = programName;
         this.activityAdmin = activityAdmin;
-        this.fidelityCards = fidelityCards;
-        this.activities = activities;
+        this.loyaltyRules.add(new DefaultEarningPointRule(pointsCalculator));
     }
+
+    public LoyaltyProgram(String programName, String creatorEmail, int pointsCalculator) {
+        this.programName = programName;
+        this.creatorEmail= creatorEmail;
+        this.loyaltyRules.add(new DefaultEarningPointRule(pointsCalculator));
+    }
+
+    public void enrollCard(FidelityCard fidelityCard){
+        this.fidelityCards.add(fidelityCard);
+    }
+
+    public void enrollActivity(Activity activity){
+        this.activities.add(activity);
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -70,8 +90,6 @@ public class LoyaltyProgram {
         return getClass().getSimpleName() + "(" +
                 "loyaltyProgramId = " + loyaltyProgramId + ", " +
                 "programName = " + programName + ", " +
-                "multiplier = " + multiplier + ", " +
-                "thresholdCounter = " + thresholdCounter + ", " +
                 "activityAdmin = " + activityAdmin + ")";
     }
 }

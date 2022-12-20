@@ -1,10 +1,7 @@
 package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.Hibernate;
 
 import java.util.LinkedHashSet;
@@ -28,18 +25,30 @@ public class FidelityCard {
     @Column(name = "fidelity_card_id", nullable = false)
     private Long fidelityCardId;
 
-    @ManyToMany
-    @JoinTable(name = "fidelity_card_loyalty_programs",
-            joinColumns = @JoinColumn(name = "fidelity_card_fidelity_card_id"),
-            inverseJoinColumns = @JoinColumn(name = "loyalty_programs_loyalty_program_id"))
-    private Set<LoyaltyProgram> loyaltyPrograms = new LinkedHashSet<>();
 
     @OneToOne(mappedBy = "fidelityCard", orphanRemoval = true)
     private CostumerWallet costumerWallet;
 
 
+    @ManyToOne
+    @JoinColumn(name = "loyalty_program_loyalty_program_id")
+    private LoyaltyProgram loyaltyProgram;
+
+
+    @OneToMany(mappedBy = "fidelityCard", orphanRemoval = true)
+    private Set<Transaction> transactions = new LinkedHashSet<>();
+
+
     public FidelityCard(CostumerWallet costumerWallet){
         this.costumerWallet=costumerWallet;
+    }
+
+    public void enrollCardToLoyaltyProgram(LoyaltyProgram loyaltyProgram){
+        loyaltyProgram.enrollCard(this);
+    }
+
+    public void addTransaction(Transaction transaction){
+        transactions.add(transaction);
     }
 
     @Override
@@ -54,6 +63,7 @@ public class FidelityCard {
     public int hashCode() {
         return getClass().hashCode();
     }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
