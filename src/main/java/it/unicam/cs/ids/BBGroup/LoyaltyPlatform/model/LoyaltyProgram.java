@@ -52,8 +52,6 @@ public class LoyaltyProgram {
         this.activities = activities;
     }
 
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
