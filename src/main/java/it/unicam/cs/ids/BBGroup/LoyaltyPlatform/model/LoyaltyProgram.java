@@ -1,6 +1,7 @@
 package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -36,16 +37,19 @@ public class LoyaltyProgram {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "activity_admin_id", nullable = false)
-    @JsonBackReference
+    @JsonIgnore
     private ActivityAdmin activityAdmin;
 
     @OneToMany(mappedBy = "loyaltyProgram", orphanRemoval = true)
+    @JsonIgnore
     private Set<Activity> activities = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "loyaltyProgram", orphanRemoval = true)
+    @JsonIgnore
     private Set<FidelityCard> fidelityCards = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "loyaltyProgram", orphanRemoval = true)
+    @JsonIgnore
     private Set<LoyaltyRule> loyaltyRules = new LinkedHashSet<>();
 
     private String creatorEmail;
@@ -65,6 +69,7 @@ public class LoyaltyProgram {
 
     public void enrollCard(FidelityCard fidelityCard){
         this.fidelityCards.add(fidelityCard);
+        fidelityCard.setLoyaltyProgram(this);
     }
 
     public void enrollActivity(Activity activity){

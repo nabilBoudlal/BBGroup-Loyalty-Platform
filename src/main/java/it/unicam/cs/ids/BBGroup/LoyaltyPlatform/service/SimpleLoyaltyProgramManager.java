@@ -4,6 +4,7 @@ import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.EntityNotFoundExceptio
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.Activity;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.ActivityAdmin;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.FidelityCard;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.LoyaltyProgram;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.ActivityAdminRepository;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.ActivityRepository;
@@ -11,6 +12,8 @@ import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.LoyaltyProgramReposit
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+
+import java.util.Collection;
 
 @Validated
 @Service
@@ -59,6 +62,15 @@ public class SimpleLoyaltyProgramManager implements LoyaltyProgramManager {
     public Activity enrollActivityToLoyaltyProgram(String programName, String adminEmail){
         programRepository.findByProgramName(programName).enrollActivity(activityRepository.findByAdminEmail(adminEmail));
         return activityRepository.findByAdminEmail(adminEmail);
+    }
+
+    @Override
+    public Collection<Activity> showAllEnrolledActivities(String programName){
+       return programRepository.findByProgramName(programName).getActivities();
+    }
+    @Override
+    public Collection<FidelityCard> showAllEnrolledCard(String programName){
+        return programRepository.findByProgramName(programName).getFidelityCards();
     }
 
 
