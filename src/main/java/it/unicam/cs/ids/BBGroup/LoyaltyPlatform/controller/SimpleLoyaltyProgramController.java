@@ -5,6 +5,7 @@ import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.Activity;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.FidelityCard;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.LoyaltyProgram;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.LoyaltyRule;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.LoyaltyProgramRepository;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service.LoyaltyProgramManager;
 import org.hibernate.sql.ast.tree.expression.Collation;
@@ -62,5 +63,10 @@ public class SimpleLoyaltyProgramController implements LoyaltyProgramController{
     @GetMapping("/list/card/{programName}")
     public Collection<FidelityCard> showAllEnrolledCard(@PathVariable String programName){
         return programManager.showAllEnrolledCard(programName);
+    }
+
+    @GetMapping("/list/rules/{programName}")
+    public Collection<LoyaltyRule> showActiveRules(@PathVariable String programName){
+        return programManager.showActiveRules(programName);
     }
 }

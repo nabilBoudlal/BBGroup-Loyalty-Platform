@@ -1,16 +1,22 @@
 package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
 
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="DISCRIMINATOR", discriminatorType=DiscriminatorType.STRING)
+@DiscriminatorValue("AbstractRule")
 public abstract class LoyaltyRule {
 
     @Id
@@ -20,9 +26,13 @@ public abstract class LoyaltyRule {
 
     private  LoyaltyRuleType ruleType;
 
-    @ManyToOne
-    @JoinColumn(name = "loyalty_program_loyalty_program_id")
-    private LoyaltyProgram loyaltyProgram;
+
+    @ManyToMany
+    @JsonIgnore
+    @JoinTable(name = "loyalty_rule_loyalty_programs",
+            joinColumns = @JoinColumn(name = "loyalty_rule_rule_id"),
+            inverseJoinColumns = @JoinColumn(name = "loyalty_programs_loyalty_program_id"))
+    private Set<LoyaltyProgram> loyaltyPrograms = new LinkedHashSet<>();
 
 
     public LoyaltyRule() {

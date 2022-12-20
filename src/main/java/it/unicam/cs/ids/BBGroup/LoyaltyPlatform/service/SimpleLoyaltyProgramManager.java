@@ -2,10 +2,7 @@ package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service;
 
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.EntityNotFoundException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
-import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.Activity;
-import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.ActivityAdmin;
-import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.FidelityCard;
-import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.LoyaltyProgram;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.*;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.ActivityAdminRepository;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.ActivityRepository;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.LoyaltyProgramRepository;
@@ -25,7 +22,8 @@ public class SimpleLoyaltyProgramManager implements LoyaltyProgramManager {
     private ActivityAdminRepository activityAdminRepository;
     @Autowired
     private ActivityRepository activityRepository;
-
+    @Autowired
+    private LoyaltyRuleManager loyaltyRuleManager;
 
 
     @Override
@@ -40,6 +38,8 @@ public class SimpleLoyaltyProgramManager implements LoyaltyProgramManager {
         Activity activity= activityRepository.findByAdminEmail(admin.getEmail());
         activity.setLoyaltyProgram(object);
         object.setActivityAdmin(admin);
+        LoyaltyRule defaultRule = new DefaultEarningPointRule(1);
+        object.addRule(loyaltyRuleManager.create(defaultRule));
         return programRepository.save(object);
     }
 
@@ -50,12 +50,14 @@ public class SimpleLoyaltyProgramManager implements LoyaltyProgramManager {
 
     @Override
     public boolean delete(Long id) throws EntityNotFoundException, IdConflictException {
-        return false;
+        if(!this.exists(id)) throw new EntityNotFoundException("Loyalty Program non trovato");
+        programRepository.deleteByLoyaltyProgramId(id);
+        return !this.exists(id);
     }
 
     @Override
     public boolean exists(Long id) {
-        return false;
+        return programRepository.existsById(id);
     }
 
     @Override
@@ -63,6 +65,7 @@ public class SimpleLoyaltyProgramManager implements LoyaltyProgramManager {
         programRepository.findByProgramName(programName).enrollActivity(activityRepository.findByAdminEmail(adminEmail));
         return activityRepository.findByAdminEmail(adminEmail);
     }
+
 
     @Override
     public Collection<Activity> showAllEnrolledActivities(String programName){
@@ -72,6 +75,12 @@ public class SimpleLoyaltyProgramManager implements LoyaltyProgramManager {
     public Collection<FidelityCard> showAllEnrolledCard(String programName){
         return programRepository.findByProgramName(programName).getFidelityCards();
     }
+
+    @Override
+    public Collection<LoyaltyRule> showActiveRules(String programName){
+        return programRepository.findByProgramName(programName).getLoyaltyRules();
+    }
+
 
 
 }

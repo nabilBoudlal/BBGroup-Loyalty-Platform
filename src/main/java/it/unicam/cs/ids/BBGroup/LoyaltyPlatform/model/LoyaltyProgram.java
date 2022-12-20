@@ -48,23 +48,26 @@ public class LoyaltyProgram {
     @JsonIgnore
     private Set<FidelityCard> fidelityCards = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "loyaltyProgram", orphanRemoval = true)
-    @JsonIgnore
-    private Set<LoyaltyRule> loyaltyRules = new LinkedHashSet<>();
+
 
     private String creatorEmail;
 
 
-    public LoyaltyProgram(String programName, ActivityAdmin activityAdmin, int pointsCalculator) {
+    @ManyToMany
+    @JoinTable(name = "loyalty_program_loyalty_rules",
+            joinColumns = @JoinColumn(name = "loyalty_program_loyalty_program_id"),
+            inverseJoinColumns = @JoinColumn(name = "loyalty_rules_rule_id"))
+    private Set<LoyaltyRule> loyaltyRules = new LinkedHashSet<>();
+
+
+    public LoyaltyProgram(String programName, ActivityAdmin activityAdmin) {
         this.programName = programName;
         this.activityAdmin = activityAdmin;
-        this.loyaltyRules.add(new DefaultEarningPointRule(pointsCalculator));
     }
 
-    public LoyaltyProgram(String programName, String creatorEmail, int pointsCalculator) {
+    public LoyaltyProgram(String programName, String creatorEmail) {
         this.programName = programName;
         this.creatorEmail= creatorEmail;
-        this.loyaltyRules.add(new DefaultEarningPointRule(pointsCalculator));
     }
 
     public void enrollCard(FidelityCard fidelityCard){
@@ -76,6 +79,9 @@ public class LoyaltyProgram {
         this.activities.add(activity);
     }
 
+    public void addRule(LoyaltyRule rule){
+        this.loyaltyRules.add(rule);
+    }
 
     @Override
     public boolean equals(Object o) {

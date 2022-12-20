@@ -17,6 +17,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 
 @Table(name = "activity")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "activity_seq")
