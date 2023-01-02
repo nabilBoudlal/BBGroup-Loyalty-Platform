@@ -1,6 +1,7 @@
 package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Inheritance;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,10 +10,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
+public class PlatformAdmin extends User{
 
-public class Employee extends User{
 
-    public Employee(String name, String surname, String email, String phone) {
+    public PlatformAdmin(String name, String surname, String email, String phone) {
         super(name, surname, email, phone);
     }
 
