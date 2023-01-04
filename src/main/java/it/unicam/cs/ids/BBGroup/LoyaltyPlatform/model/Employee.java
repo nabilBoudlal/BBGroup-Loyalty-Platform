@@ -12,8 +12,11 @@ import lombok.Setter;
 
 public class Employee extends User{
 
-    public Employee(String name, String surname, String email, String phone) {
-        super(name, surname, email, phone);
+    private String surname;
+
+    public Employee(String name, String surname, String address, String email, String phone) {
+        super(name, address, email, phone);
+        this.surname = surname;
     }
 
 

@@ -46,7 +46,7 @@ public class ActivityJoinRequestHandler {
     @PostMapping("/validateRequest/{requestId}")
     public Activity validateRequest(@PathVariable Long requestId) throws EntityNotFoundException, IdConflictException {
         ActivityJoinRequest request = requestManager.getInstance(requestId);
-        Activity activity= new Activity( request.getActivityEmail(), request.getActivityEmail(), request.getVatCode(), request.getAddress(), request.getPhone());
+        Activity activity= new Activity( request.getActivityName(), request.getActivityEmail(), request.getVatCode(), request.getAddress(), request.getPhone());
         return activityManager.create(activity);
     }
 

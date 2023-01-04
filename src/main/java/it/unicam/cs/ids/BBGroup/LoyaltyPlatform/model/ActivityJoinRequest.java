@@ -4,8 +4,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.sql.Date;
+import java.util.Calendar;
+import java.util.Date;
+
 
 @Entity
 @NoArgsConstructor
@@ -19,9 +22,8 @@ public class ActivityJoinRequest implements JoinRequest{
     private Long activityRequestId;
 
     private boolean validated = false;
-
+    @DateTimeFormat(pattern = "yyyy--MM--dd")
     private Date date;
-
     private String activityEmail;
 
     private String activityName;
@@ -39,10 +41,10 @@ public class ActivityJoinRequest implements JoinRequest{
         this.vatCode = vatCode;
         this.address = address;
         this.phone = phone;
-        this.date.toLocalDate();
+        this.date = Calendar.getInstance().getTime();
     }
 
-    public void vaidate(){this.validated=true;}
+    public void validate(){this.validated=true;}
 
     @Override
     public boolean equals(Object o) {

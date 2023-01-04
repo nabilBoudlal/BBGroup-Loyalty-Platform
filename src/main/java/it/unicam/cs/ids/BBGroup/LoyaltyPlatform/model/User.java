@@ -18,15 +18,15 @@ public abstract class User {
 
     private String name;
 
-    private String surname;
+    private String address;
 
     private String email;
 
     private String phone;
 
-    public User(String name, String surname, String email, String phone) {
+    public User(String name, String address, String email, String phone) {
         this.name = name;
-        this.surname = surname;
+        this.address = address;
         this.email = email;
         this.phone = phone;
     }
@@ -54,7 +54,6 @@ public abstract class User {
         return "User{" +
                 "userId=" + userId +
                 ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 '}';

@@ -11,7 +11,10 @@ import lombok.Setter;
 @Getter
 public class Costumer extends User{
 
-    public Costumer(String name, String surname, String email, String phone) {
-        super(name, surname, email, phone);
+    private String surname;
+
+    public Costumer(String name, String surname, String address, String email, String phone) {
+        super(name, address, email, phone);
+        this.surname = surname;
     }
 }
