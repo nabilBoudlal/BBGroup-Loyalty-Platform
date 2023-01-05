@@ -7,37 +7,36 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
-
+import java.util.Objects;
 
 @Entity
-@NoArgsConstructor
-@Setter
 @Getter
-public class ActivityJoinRequest implements JoinRequest{
-
+@Setter
+@NoArgsConstructor
+public class CostumerJoinRequest implements JoinRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "activity_request_id", nullable = false)
-    private Long activityRequestId;
+    @Column(name = "id", nullable = false)
+    private Long id;
 
     private boolean validated = false;
     @DateTimeFormat(pattern = "yyyy--MM--dd")
     private Date date;
-    private String activityEmail;
+    private String costumerEmail;
 
-    private String activityName;
+    private String costumerName;
 
-    private String vatCode;
+    private String costumerSurname;
 
     private String address;
 
     private String phone;
 
 
-    public ActivityJoinRequest(String activityEmail, String activityName, String vatCode, String address, String phone) {
-        this.activityEmail = activityEmail;
-        this.activityName = activityName;
-        this.vatCode = vatCode;
+    public CostumerJoinRequest(String costumerEmail, String costumerName, String costumerSurname, String address, String phone) {
+        this.costumerEmail = costumerEmail;
+        this.costumerName = costumerName;
+        this.costumerSurname = costumerSurname;
         this.address = address;
         this.phone = phone;
         this.date.toLocalDate();
@@ -49,14 +48,12 @@ public class ActivityJoinRequest implements JoinRequest{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
-        ActivityJoinRequest that = (ActivityJoinRequest) o;
-
-        return getActivityEmail() != null ? getActivityEmail().equals(that.getActivityEmail()) : that.getActivityEmail() == null;
+        CostumerJoinRequest that = (CostumerJoinRequest) o;
+        return Objects.equals(date, that.date) && Objects.equals(costumerEmail, that.costumerEmail) && Objects.equals(phone, that.phone);
     }
 
     @Override
     public int hashCode() {
-        return getActivityEmail() != null ? getActivityEmail().hashCode() : 0;
+        return Objects.hash(date, costumerEmail, phone);
     }
 }

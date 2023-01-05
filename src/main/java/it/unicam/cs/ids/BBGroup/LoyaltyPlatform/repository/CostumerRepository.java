@@ -4,4 +4,5 @@ import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.Costumer;
 import org.springframework.data.repository.CrudRepository;
 
 public interface CostumerRepository extends CrudRepository<Costumer, Long> {
+    boolean existsByEmail(String email);
 }

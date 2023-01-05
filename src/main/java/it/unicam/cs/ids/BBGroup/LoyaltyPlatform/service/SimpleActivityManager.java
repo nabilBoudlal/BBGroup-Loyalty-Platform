@@ -3,7 +3,6 @@ package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.EntityNotFoundException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.Activity;
-import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.PlatformAdmin;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.ActivityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +24,8 @@ public class SimpleActivityManager implements  ActivityManager{
 
     @Override
     public Activity create(Activity object) throws EntityNotFoundException, IdConflictException {
+        checkIfValuesAreNotNull(object);
+        checkCreation(object);
         return activityRepository.save(object);
     }
 
