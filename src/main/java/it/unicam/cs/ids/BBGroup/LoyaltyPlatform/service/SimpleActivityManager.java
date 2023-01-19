@@ -52,4 +52,5 @@ public class SimpleActivityManager implements  ActivityManager{
         Objects.requireNonNull(activity.getEmail(), "Email non inserita");
         Objects.requireNonNull(activity.getPhone(), "Telefono non inserito");
     }
+
 }

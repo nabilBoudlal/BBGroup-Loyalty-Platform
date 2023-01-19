@@ -20,8 +20,10 @@ public abstract class User {
 
     private String address;
 
+    @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false, unique = true)
     private String phone;
 
     public User(String name, String address, String email, String phone) {

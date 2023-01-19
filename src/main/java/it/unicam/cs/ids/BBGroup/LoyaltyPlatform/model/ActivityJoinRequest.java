@@ -6,7 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.sql.Date;
+import java.util.Calendar;
+import java.util.Date;
 
 
 @Entity
@@ -40,7 +41,7 @@ public class ActivityJoinRequest implements JoinRequest{
         this.vatCode = vatCode;
         this.address = address;
         this.phone = phone;
-        this.date.toLocalDate();
+        this.date = Calendar.getInstance().getTime();
     }
 
     public void validate(){this.validated=true;}

@@ -16,14 +16,11 @@ import java.util.List;
 @Getter
 public class PlatformAdmin extends User{
 
-    private String surname;
 
 
-    public PlatformAdmin(String name, String surname, String address, String email, String phone) {
-        super(name, address, email, phone);
-        this.surname = surname;
+    public PlatformAdmin(String name, String surname, String email, String phone) {
+        super(name, surname, email, phone);
     }
-
 
 
 }

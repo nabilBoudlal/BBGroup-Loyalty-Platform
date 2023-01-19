@@ -42,6 +42,8 @@ public class EmployeeJoinRequest implements JoinRequest{
         this.date.toLocalDate();
     }
 
+
+    @Override
     public void validate(){this.validated=true;}
 
     @Override
@@ -56,4 +58,6 @@ public class EmployeeJoinRequest implements JoinRequest{
     public int hashCode() {
         return Objects.hash(date, employeeEmail, phone);
     }
+
+
 }
