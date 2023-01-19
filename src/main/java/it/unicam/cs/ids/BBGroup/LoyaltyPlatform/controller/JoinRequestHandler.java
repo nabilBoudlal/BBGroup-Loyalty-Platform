@@ -3,10 +3,7 @@ package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.controller;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.EntityNotFoundException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.*;
-import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.ActivityJoinRequestRepository;
-import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.CostumerJoinRequestRepository;
-import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.CostumerRepository;
-import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.EmployeeJoinRequestRepository;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.*;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +40,9 @@ public class JoinRequestHandler {
 
     @Autowired
     private EmployeeManager employeeManager;
+
+    @Autowired
+    private FidelityCardManager fidelityCardManager;
 
     @GetMapping("/listActivity")
     public Iterable<ActivityJoinRequest> getActivitiesRequests(){
@@ -93,6 +93,7 @@ public class JoinRequestHandler {
         CostumerJoinRequest request = costumerJoinRequestManager.getInstance(costumerId);
         Costumer costumer = new Costumer(request.getCostumerEmail(), request.getCostumerName(), request.getCostumerSurname(), request.getAddress(), request.getPhone());
         request.validate();
+        costumer.addCard(fidelityCardManager.create(new FidelityCard(costumer)));
         return costumerManager.create(costumer);
     }
 

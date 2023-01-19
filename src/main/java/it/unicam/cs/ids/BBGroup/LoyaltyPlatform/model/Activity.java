@@ -17,6 +17,10 @@ public class Activity extends User {
 
     private String vatCode;
 
+    @ManyToOne
+    @JoinColumn(name = "loyalty_program_loyalty_program_id")
+    private LoyaltyProgram loyaltyProgram;
+
 
     public Activity(String name, String email, String vatCode, String address, String phone) {
         super(name, address, email, phone);
