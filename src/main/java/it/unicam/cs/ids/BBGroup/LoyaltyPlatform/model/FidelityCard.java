@@ -27,6 +27,9 @@ public class FidelityCard {
     @ManyToMany(mappedBy = "fidelityCards")
     private Set<LoyaltyProgram> loyaltyPrograms = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy = "fidelityCard", orphanRemoval = true)
+    private Set<Transaction> transactions = new LinkedHashSet<>();
+
     public FidelityCard(Costumer costumer) {
         this.costumer = costumer;
         totalPoints=0;
