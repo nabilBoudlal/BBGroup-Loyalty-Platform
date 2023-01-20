@@ -88,13 +88,14 @@ public class JoinRequestHandler {
         return activityManager.create(activity);
     }
 
-    @PostMapping("validateRequestCostumer/{costumerId}")
-    public Costumer valideRequestCostumer(@PathVariable Long costumerId) throws EntityNotFoundException, IdConflictException {
-        CostumerJoinRequest request = costumerJoinRequestManager.getInstance(costumerId);
+    @PostMapping("validateRequestCostumer/{requestId}")
+    public boolean valideRequestCostumer(@PathVariable Long requestId) throws EntityNotFoundException, IdConflictException {
+        CostumerJoinRequest request = costumerJoinRequestManager.getInstance(requestId);
         Costumer costumer = new Costumer(request.getCostumerEmail(), request.getCostumerName(), request.getCostumerSurname(), request.getAddress(), request.getPhone());
         request.validate();
-        costumer.addCard(fidelityCardManager.create(new FidelityCard(costumer)));
-        return costumerManager.create(costumer);
+        costumerManager.create(costumer);
+        this.createNewCard(costumer);
+        return costumerManager.exists(costumer.getUserId());
     }
 
     @PostMapping("validateRequestEmployee/{employeeId}")
@@ -103,6 +104,11 @@ public class JoinRequestHandler {
         Employee employee = new Employee(request.getEmployeeEmail(), request.getEmployeeName(), request.getEmployeeSurname(), request.getAddress(), request.getPhone());
         request.validate();
         return employeeManager.create(employee);
+    }
+
+    private void createNewCard(Costumer costumer) throws IdConflictException, EntityNotFoundException {
+        FidelityCard card= new FidelityCard(costumer);
+        costumer.addCard(fidelityCardManager.create(card));
     }
 
 

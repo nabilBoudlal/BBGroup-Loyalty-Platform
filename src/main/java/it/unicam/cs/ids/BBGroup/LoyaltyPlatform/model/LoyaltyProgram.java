@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model;
 
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.rules.Rule;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,11 +13,13 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public abstract class LoyaltyProgram {
+public class LoyaltyProgram {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "loyalty_program_id", nullable = false)
     private Long loyaltyProgramId;
+
+    private String programName;
 
     @ManyToMany
     @JoinTable(name = "loyalty_program_fidelity_cards",
@@ -27,5 +30,14 @@ public abstract class LoyaltyProgram {
     @OneToMany(mappedBy = "loyaltyProgram", orphanRemoval = true)
     private Set<Activity> enrolledActivities = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy = "loyaltyProgram", orphanRemoval = true)
+    private Set<Rule> rules = new LinkedHashSet<>();
 
+    public LoyaltyProgram(String programName) {
+        this.programName = programName;
+    }
+
+    public boolean addRule(Rule rule) {
+       return rules.add(rule);
+    }
 }

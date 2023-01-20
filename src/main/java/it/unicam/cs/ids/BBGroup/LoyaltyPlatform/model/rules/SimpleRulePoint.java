@@ -1,11 +1,13 @@
 package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.rules;
 
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.Transaction;
+import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Entity
 public class SimpleRulePoint extends Rule{
 
     private final int pointCalculator;

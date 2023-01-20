@@ -3,6 +3,7 @@ package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.controller;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.EntityNotFoundException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.LoyaltyProgram;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.RuleRepository;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service.LoyaltyProgramManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 public class SimpleLoyaltyProgramController implements LoyaltyProgramController{
     @Autowired
     private LoyaltyProgramManager loyaltyProgramManager;
+    @Autowired
+    private RuleRepository ruleRepository;
 
 
     @GetMapping("/{id}")
@@ -39,5 +42,10 @@ public class SimpleLoyaltyProgramController implements LoyaltyProgramController{
     @Override
     public boolean exists(Long id) {
         return false;
+    }
+
+    @PostMapping("/createProgramWithRule/{programName}/{ruleName}")
+    public boolean createLoyaltyProgramWithRule(@PathVariable String programName,@PathVariable String ruleName) throws IdConflictException, EntityNotFoundException {
+        return this.create(new LoyaltyProgram(programName)).addRule(ruleRepository.findByRuleName(ruleName));
     }
 }
