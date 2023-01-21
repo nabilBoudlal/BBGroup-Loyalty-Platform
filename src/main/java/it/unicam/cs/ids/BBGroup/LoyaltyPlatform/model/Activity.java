@@ -1,6 +1,7 @@
 package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,8 +18,10 @@ public class Activity extends User {
     private String vatCode;
 
     @ManyToOne
-    @JoinColumn(name = "loyalty_program_loyalty_program_id")
+    @JoinColumn(name = "loyalty_program")
     private LoyaltyProgram loyaltyProgram;
+
+    private String programName;
 
 
     public Activity(String name, String email, String vatCode, String address, String phone) {

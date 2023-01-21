@@ -2,10 +2,12 @@ package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.controller;
 
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.EntityNotFoundException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.Activity;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.LoyaltyProgram;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.ActivityRepository;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.LoyaltyProgramRepository;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.RuleRepository;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service.ActivityManager;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service.LoyaltyProgramManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +19,12 @@ public class SimpleLoyaltyProgramController implements LoyaltyProgramController{
     private LoyaltyProgramManager loyaltyProgramManager;
     @Autowired
     private RuleRepository ruleRepository;
-
-    @Autowired
-    private ActivityRepository activityRepository;
-
     @Autowired
     private LoyaltyProgramRepository loyaltyProgramRepository;
+    @Autowired
+    private ActivityRepository activityRepository;
+    @Autowired
+    private ActivityManager activityManager;
 
 
     @GetMapping("/{id}")
@@ -53,14 +55,20 @@ public class SimpleLoyaltyProgramController implements LoyaltyProgramController{
     }
 
     @PostMapping("/createProgramWithRule/{programName}/{ruleName}")
-    public boolean createLoyaltyProgramWithRule(@PathVariable String programName,@PathVariable String ruleName) throws IdConflictException, EntityNotFoundException {
-        return this.create(new LoyaltyProgram(programName)).addRule(ruleRepository.findByRuleName(ruleName));
+    public LoyaltyProgram createLoyaltyProgramWithRule(@PathVariable String programName,@PathVariable String ruleName) throws IdConflictException, EntityNotFoundException {
+        LoyaltyProgram newProgram= (new LoyaltyProgram(programName, ruleRepository.findByRuleName(ruleName)));
+        return loyaltyProgramManager.create(newProgram);
     }
 
     @PostMapping("/enrollActivity/{programName}/{activityEmail}")
-    public boolean enrollActivity(String programName, String activityEmail) {
-        activityRepository.findByEmail(activityEmail).setLoyaltyProgram(loyaltyProgramRepository.findByProgramName(programName));
-        return true;
+    public Activity enrollActivity(@PathVariable String programName, @PathVariable String activityEmail) throws IdConflictException, EntityNotFoundException {
+        loyaltyProgramRepository.findByProgramName(programName).enrollActivity(activityRepository.findByEmail(activityEmail));
+        activityManager.updateWithLoyaltyProgram(activityRepository.findByEmail(activityEmail).getUserId(),loyaltyProgramRepository.findByProgramName(programName));
+        return activityRepository.findByEmail(activityEmail);
     }
+
+
+
+
 
 }

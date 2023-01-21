@@ -1,6 +1,7 @@
 package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,9 +27,11 @@ public class Transaction {
 
     @ManyToOne
     @JoinColumn(name = "fidelity_card_card_id")
+    @JsonIgnore
     private FidelityCard fidelityCard;
 
     @OneToOne(orphanRemoval = true)
+    @JsonIgnore
     @JoinColumn(name = "activity_user_id")
     private Activity activity;
 

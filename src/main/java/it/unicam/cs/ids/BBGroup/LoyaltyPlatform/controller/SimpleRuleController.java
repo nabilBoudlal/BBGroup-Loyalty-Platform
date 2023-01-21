@@ -44,4 +44,6 @@ public class SimpleRuleController implements RuleController{
     public boolean exists(Long id) {
         return false;
     }
+
+
 }

@@ -29,13 +29,16 @@ public abstract class Rule {
     @ManyToMany(mappedBy = "rules")
     private Set<LoyaltyProgram> loyaltyPrograms = new LinkedHashSet<>();
 
-
     public Rule(String ruleName, RuleType type) {
         this.ruleName = ruleName;
         this.type = type;
     }
 
     public abstract void applyRule(Transaction transaction);
+
+    public void addLoyaltyProgram(LoyaltyProgram program){
+        this.loyaltyPrograms.add(program);
+    }
 
     @Override
     public boolean equals(Object o) {

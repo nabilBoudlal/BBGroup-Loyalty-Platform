@@ -5,11 +5,18 @@ import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.FidelityCard;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.LoyaltyProgram;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.Transaction;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.rules.Rule;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.FidelityCardRepository;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.LoyaltyProgramRepository;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.RuleRepository;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.TransactionRepository;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service.FidelityCardManager;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service.TransactionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("api/Transaction")
@@ -20,6 +27,12 @@ public class SimpleTransactionController implements TransactionController{
     private FidelityCardRepository fidelityCardRepository;
     @Autowired
     private FidelityCardManager cardManager;
+    @Autowired
+    private LoyaltyProgramRepository loyaltyProgramRepository;
+    @Autowired
+    private RuleRepository ruleRepository;
+    @Autowired
+    private TransactionRepository transactionRepository;
 
     @GetMapping("/{id}")
     @Override
@@ -47,11 +60,16 @@ public class SimpleTransactionController implements TransactionController{
         return false;
     }
 
-    public int validateTransaction(@PathVariable Long cardId, @PathVariable Long transactionId) throws EntityNotFoundException {
-       FidelityCard card=  cardManager.getInstance(cardId);
+    // A method that is called when a transaction is validated. It takes the card and transaction id as parameters and
+    // returns the total points of the card.
+    @PostMapping("/validateTransaction/{cardId}/{transactionId}")
+    public List<Rule> validateTransaction(@PathVariable Long cardId, @PathVariable Long transactionId) throws EntityNotFoundException {
        Transaction transaction= transactionManager.getInstance(transactionId);
-       LoyaltyProgram currentProgram= transaction.getActivity().getLoyaltyProgram();
-       currentProgram.getRules().forEach(s -> s.applyRule(transaction));
-       return card.getTotalPoints();
+        List<Rule> currentRules= ruleRepository.findByLoyaltyPrograms_LoyaltyProgramId(transaction.getActivity().getLoyaltyProgram().getLoyaltyProgramId());
+      // List<Rule> currentRules= ruleRepository.findByLoyaltyPrograms_ProgramName(transaction.getActivity().getProgramName());
+       currentRules.forEach(s -> s.applyRule(transaction));
+       return currentRules;
     }
+
+
 }

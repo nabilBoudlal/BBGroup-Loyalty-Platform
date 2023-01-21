@@ -36,9 +36,8 @@ public class FidelityCard {
         totalPoints=0;
     }
 
-    public int addPoints(int value) {
+    public void addPoints(int value) {
         totalPoints+=value;
-        return totalPoints;
     }
 
     public int removePoints(int value) {

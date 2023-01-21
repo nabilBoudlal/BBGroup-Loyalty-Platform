@@ -3,6 +3,7 @@ package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.EntityNotFoundException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.Activity;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.LoyaltyProgram;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.ActivityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,12 @@ public class SimpleActivityManager implements  ActivityManager{
     @Override
     public Activity update(Activity object) throws EntityNotFoundException, IdConflictException {
         return null;
+    }
+    @Override
+    public Activity updateWithLoyaltyProgram(Long activityId, LoyaltyProgram program) throws EntityNotFoundException, IdConflictException {
+        Activity activity= activityRepository.findById(activityId).orElseThrow();
+        activity.setLoyaltyProgram(program);
+        return  activityRepository.save(activity);
     }
 
     @Override
