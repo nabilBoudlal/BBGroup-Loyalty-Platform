@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
 
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -24,9 +26,9 @@ public abstract class Rule {
 
     private RuleType type;
 
-    @ManyToOne
-    @JoinColumn(name = "loyalty_program_loyalty_program_id")
-    private LoyaltyProgram loyaltyProgram;
+    @ManyToMany(mappedBy = "rules")
+    private Set<LoyaltyProgram> loyaltyPrograms = new LinkedHashSet<>();
+
 
     public Rule(String ruleName, RuleType type) {
         this.ruleName = ruleName;

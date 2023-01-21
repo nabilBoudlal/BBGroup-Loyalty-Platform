@@ -30,7 +30,10 @@ public class LoyaltyProgram {
     @OneToMany(mappedBy = "loyaltyProgram", orphanRemoval = true)
     private Set<Activity> enrolledActivities = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "loyaltyProgram", orphanRemoval = true)
+    @ManyToMany
+    @JoinTable(name = "loyalty_program_rules",
+            joinColumns = @JoinColumn(name = "loyalty_program_loyalty_program_id"),
+            inverseJoinColumns = @JoinColumn(name = "rules_rule_id"))
     private Set<Rule> rules = new LinkedHashSet<>();
 
     public LoyaltyProgram(String programName) {

@@ -3,6 +3,8 @@ package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.controller;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.EntityNotFoundException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.LoyaltyProgram;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.ActivityRepository;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.LoyaltyProgramRepository;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.RuleRepository;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service.LoyaltyProgramManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,12 @@ public class SimpleLoyaltyProgramController implements LoyaltyProgramController{
     private LoyaltyProgramManager loyaltyProgramManager;
     @Autowired
     private RuleRepository ruleRepository;
+
+    @Autowired
+    private ActivityRepository activityRepository;
+
+    @Autowired
+    private LoyaltyProgramRepository loyaltyProgramRepository;
 
 
     @GetMapping("/{id}")
@@ -47,6 +55,12 @@ public class SimpleLoyaltyProgramController implements LoyaltyProgramController{
     @PostMapping("/createProgramWithRule/{programName}/{ruleName}")
     public boolean createLoyaltyProgramWithRule(@PathVariable String programName,@PathVariable String ruleName) throws IdConflictException, EntityNotFoundException {
         return this.create(new LoyaltyProgram(programName)).addRule(ruleRepository.findByRuleName(ruleName));
+    }
+
+    @PostMapping("/enrollActivity/{programName}/{activityEmail}")
+    public boolean enrollActivity(String programName, String activityEmail) {
+        activityRepository.findByEmail(activityEmail).setLoyaltyProgram(loyaltyProgramRepository.findByProgramName(programName));
+        return true;
     }
 
 }
