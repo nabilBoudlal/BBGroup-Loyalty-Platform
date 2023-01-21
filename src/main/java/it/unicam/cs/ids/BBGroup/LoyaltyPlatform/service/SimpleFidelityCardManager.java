@@ -30,6 +30,11 @@ public class SimpleFidelityCardManager implements FidelityCardManager{
     public FidelityCard update(FidelityCard object) throws EntityNotFoundException, IdConflictException {
         return null;
     }
+@Override
+    public int updatePoints(FidelityCard object, int points) throws EntityNotFoundException, IdConflictException {
+        fidelityCardRepository.updateTotalPointsByTotalPoints(object.getTotalPoints(), points);
+        return object.getTotalPoints();
+    }
 
     @Override
     public boolean delete(Long id) throws EntityNotFoundException, IdConflictException {
