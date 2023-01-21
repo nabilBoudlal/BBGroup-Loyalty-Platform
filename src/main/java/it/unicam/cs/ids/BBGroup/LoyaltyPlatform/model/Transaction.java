@@ -6,11 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Optional;
+
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 public class Transaction {
+    private  long activityId;
+    private  long fidelityCardId;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "transaction_id", nullable = false)
@@ -34,6 +38,22 @@ public class Transaction {
         this.fidelityCard = fidelityCard;
         this.activity = activity;
     }
+    public Transaction(int price, long fidelityCardId, long activityId) {
+        this.price = price;
+        this.validated = false;
+        this.fidelityCardId = fidelityCardId;
+        this.activityId = activityId;
+    }
+
+    public Transaction(int price, long activityId) {
+        this.price = price;
+        this.validated = false;
+        this.activityId = activityId;
+    }
+
+
 
     public void validate(){this.validated= true;}
+
+
 }

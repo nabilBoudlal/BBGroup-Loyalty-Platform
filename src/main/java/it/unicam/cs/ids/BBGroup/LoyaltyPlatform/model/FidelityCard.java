@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -25,10 +26,10 @@ public class FidelityCard {
     private Costumer costumer;
 
     @ManyToMany(mappedBy = "fidelityCards")
-    private Set<LoyaltyProgram> loyaltyPrograms = new LinkedHashSet<>();
+    private Set<LoyaltyProgram> loyaltyPrograms = new HashSet<>();
 
     @OneToMany(mappedBy = "fidelityCard", orphanRemoval = true)
-    private Set<Transaction> transactions = new LinkedHashSet<>();
+    private Set<Transaction> transactions = new HashSet<>();
 
     public FidelityCard(Costumer costumer) {
         this.costumer = costumer;

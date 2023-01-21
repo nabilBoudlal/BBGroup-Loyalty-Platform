@@ -4,7 +4,6 @@ package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Objects;
 
 @Entity
 @Getter
@@ -25,6 +24,7 @@ public class Activity extends User {
     public Activity(String name, String email, String vatCode, String address, String phone) {
         super(name, address, email, phone);
         this.vatCode = vatCode;
-    }
+        }
+
 }
 

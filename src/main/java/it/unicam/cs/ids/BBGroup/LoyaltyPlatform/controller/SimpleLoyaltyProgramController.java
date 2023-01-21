@@ -48,4 +48,5 @@ public class SimpleLoyaltyProgramController implements LoyaltyProgramController{
     public boolean createLoyaltyProgramWithRule(@PathVariable String programName,@PathVariable String ruleName) throws IdConflictException, EntityNotFoundException {
         return this.create(new LoyaltyProgram(programName)).addRule(ruleRepository.findByRuleName(ruleName));
     }
+
 }

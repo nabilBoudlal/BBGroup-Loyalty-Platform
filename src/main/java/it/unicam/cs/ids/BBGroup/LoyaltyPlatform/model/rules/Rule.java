@@ -33,7 +33,7 @@ public abstract class Rule {
         this.type = type;
     }
 
-    public abstract int applyRule(Transaction transaction);
+    public abstract void applyRule(Transaction transaction);
 
     @Override
     public boolean equals(Object o) {

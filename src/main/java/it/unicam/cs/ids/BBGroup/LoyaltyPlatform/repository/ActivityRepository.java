@@ -5,4 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface ActivityRepository extends CrudRepository<Activity, Long> {
     boolean existsByEmail(String email);
+
+    Activity findById(long activityId);
 }

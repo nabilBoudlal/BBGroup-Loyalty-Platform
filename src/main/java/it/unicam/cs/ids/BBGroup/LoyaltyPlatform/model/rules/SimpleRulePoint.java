@@ -19,7 +19,7 @@ public class SimpleRulePoint extends Rule{
 
 
     @Override
-    public int applyRule(Transaction transaction) {
-        return transaction.getPrice()*pointCalculator;
+    public void applyRule(Transaction transaction) {
+        transaction.getFidelityCard().addPoints( transaction.getPrice()*pointCalculator);
     }
 }
