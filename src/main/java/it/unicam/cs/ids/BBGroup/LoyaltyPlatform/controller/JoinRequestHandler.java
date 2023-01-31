@@ -89,13 +89,13 @@ public class JoinRequestHandler {
     }
 
     @PostMapping("validateRequestCostumer/{requestId}")
-    public boolean valideRequestCostumer(@PathVariable Long requestId) throws EntityNotFoundException, IdConflictException {
+    public Costumer valideRequestCostumer(@PathVariable Long requestId) throws EntityNotFoundException, IdConflictException {
         CostumerJoinRequest request = costumerJoinRequestManager.getInstance(requestId);
         Costumer costumer = new Costumer(request.getCostumerEmail(), request.getCostumerName(), request.getCostumerSurname(), request.getAddress(), request.getPhone());
         request.validate();
         costumerManager.create(costumer);
         this.createNewCard(costumer);
-        return costumerManager.exists(costumer.getUserId());
+        return costumerManager.getInstance(costumer.getUserId());
     }
 
     @PostMapping("validateRequestEmployee/{employeeId}")
@@ -110,7 +110,4 @@ public class JoinRequestHandler {
         FidelityCard card= new FidelityCard(costumer);
         costumer.addCard(fidelityCardManager.create(card));
     }
-
-
-
 }
