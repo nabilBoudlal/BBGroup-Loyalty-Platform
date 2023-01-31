@@ -60,6 +60,8 @@ public class SimpleLoyaltyProgramController implements LoyaltyProgramController{
         return loyaltyProgramManager.create(newProgram);
     }
 
+
+
     @PostMapping("/enrollActivity/{programName}/{activityEmail}")
     public Activity enrollActivity(@PathVariable String programName, @PathVariable String activityEmail) throws IdConflictException, EntityNotFoundException {
         loyaltyProgramRepository.findByProgramName(programName).enrollActivity(activityRepository.findByEmail(activityEmail));

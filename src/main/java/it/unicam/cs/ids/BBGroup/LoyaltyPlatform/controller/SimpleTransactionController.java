@@ -67,7 +67,7 @@ public class SimpleTransactionController implements TransactionController{
         Transaction transaction= transactionManager.getInstance(transactionId);
         checkTransactionStatus(transaction);
         List<Rule> currentRules= ruleRepository.findByLoyaltyPrograms_LoyaltyProgramId(transaction.getActivity().getLoyaltyProgram().getLoyaltyProgramId());
-      // List<Rule> currentRules= ruleRepository.findByLoyaltyPrograms_ProgramName(transaction.getActivity().getProgramName());
+      //List<Rule> currentRules= ruleRepository.findByLoyaltyPrograms_ProgramName(transaction.getActivity().getProgramName());
         int currentPoint= transaction.getFidelityCard().getTotalPoints();
        currentRules.forEach(s -> s.applyRule(transaction));
        transaction.validate();

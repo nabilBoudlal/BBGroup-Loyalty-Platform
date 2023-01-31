@@ -3,6 +3,7 @@ package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.controller;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.EntityNotFoundException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.rules.Rule;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.rules.SimpleRuleLevel;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.rules.SimpleRulePoint;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service.RuleManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,12 @@ public class SimpleRuleController implements RuleController{
     }
 
     @PostMapping("/createNewRulePoint")
-    public Rule create() throws EntityNotFoundException, IdConflictException {
+    public Rule createNewRulePoint() throws EntityNotFoundException, IdConflictException {
         return ruleManager.create(new SimpleRulePoint());
+    }
+    @PostMapping("/createNewLevelRule")
+    public Rule createNewLevelRule() throws EntityNotFoundException, IdConflictException {
+        return ruleManager.create(new SimpleRuleLevel());
     }
 
     @Override
