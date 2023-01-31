@@ -56,7 +56,7 @@ public class Transaction {
 
 
 
-    public void validate(){this.validated= true;}
+    public boolean validate(){ return this.validated= true;}
 
 
 }

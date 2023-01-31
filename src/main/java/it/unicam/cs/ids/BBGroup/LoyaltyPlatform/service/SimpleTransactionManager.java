@@ -52,4 +52,9 @@ public class SimpleTransactionManager implements TransactionManager{
     public boolean exists(Long id) {
         return false;
     }
+
+    @Override
+    public void updateStatus(Long transactionId) throws EntityNotFoundException {
+        transactionRepository.updateValidatedByValidated(this.getInstance(transactionId).isValidated(), this.getInstance(transactionId).isValidated());
+    }
 }

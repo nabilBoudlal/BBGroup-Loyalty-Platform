@@ -64,12 +64,19 @@ public class SimpleTransactionController implements TransactionController{
     // returns the total points of the card.
     @PostMapping("/validateTransaction/{cardId}/{transactionId}")
     public int validateTransaction(@PathVariable Long cardId, @PathVariable Long transactionId) throws EntityNotFoundException, IdConflictException {
-       Transaction transaction= transactionManager.getInstance(transactionId);
+        Transaction transaction= transactionManager.getInstance(transactionId);
+        checkTransactionStatus(transaction);
         List<Rule> currentRules= ruleRepository.findByLoyaltyPrograms_LoyaltyProgramId(transaction.getActivity().getLoyaltyProgram().getLoyaltyProgramId());
       // List<Rule> currentRules= ruleRepository.findByLoyaltyPrograms_ProgramName(transaction.getActivity().getProgramName());
         int currentPoint= transaction.getFidelityCard().getTotalPoints();
        currentRules.forEach(s -> s.applyRule(transaction));
+       transaction.validate();
+       transactionManager.updateStatus(transactionId);
        return cardManager.updatePoints(transaction.getFidelityCard(),transaction.getFidelityCard().getTotalPoints());
+    }
+
+    private void checkTransactionStatus(Transaction transaction) throws EntityNotFoundException {
+        if(transaction.isValidated()) throw new EntityNotFoundException("La transazione è già stata validata");
     }
 
 
