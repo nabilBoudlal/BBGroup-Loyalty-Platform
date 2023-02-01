@@ -21,6 +21,8 @@ public class FidelityCard {
 
     private int totalPoints;
 
+    private String level;
+
     @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "costumer_user_id", unique = true)
     private Costumer costumer;
