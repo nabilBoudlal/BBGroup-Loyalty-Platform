@@ -35,14 +35,16 @@ public class SimpleRuleController implements RuleController{
         return null;
     }
 
+    @DeleteMapping("/delete/{id}")
     @Override
-    public boolean delete(Long id) throws IdConflictException, EntityNotFoundException {
-        return false;
+    public boolean delete(@PathVariable Long id) throws IdConflictException, EntityNotFoundException {
+        return ruleManager.delete(id);
     }
 
+    @GetMapping("/exists/{id}")
     @Override
-    public boolean exists(Long id) {
-        return false;
+    public boolean exists(@PathVariable Long id) {
+        return ruleManager.exists(id);
     }
 
 

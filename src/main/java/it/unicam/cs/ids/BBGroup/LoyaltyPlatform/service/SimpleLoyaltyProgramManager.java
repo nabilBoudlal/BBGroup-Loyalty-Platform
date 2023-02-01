@@ -32,11 +32,13 @@ public class SimpleLoyaltyProgramManager implements LoyaltyProgramManager{
 
     @Override
     public boolean delete(Long id) throws EntityNotFoundException, IdConflictException {
-        return false;
+        if(!loyaltyProgramRepository.existsById(id)) throw new EntityNotFoundException("Programma con id: "+id+" non trovato!");
+        loyaltyProgramRepository.deleteById(id);
+        return !this.exists(id);
     }
 
     @Override
     public boolean exists(Long id) {
-        return false;
+        return loyaltyProgramRepository.existsById(id);
     }
 }

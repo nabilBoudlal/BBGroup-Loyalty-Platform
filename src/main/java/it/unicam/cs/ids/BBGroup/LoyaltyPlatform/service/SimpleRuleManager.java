@@ -31,11 +31,13 @@ public class SimpleRuleManager implements RuleManager{
 
     @Override
     public boolean delete(Long id) throws EntityNotFoundException, IdConflictException {
-        return false;
+        if(!ruleRepository.existsById(id)) throw new EntityNotFoundException("Regola con id: "+id+" non trovata!");
+        ruleRepository.deleteById(id);
+        return !this.exists(id);
     }
 
     @Override
     public boolean exists(Long id) {
-        return false;
+        return ruleRepository.existsById(id);
     }
 }

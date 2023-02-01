@@ -43,12 +43,14 @@ public class SimpleActivityManager implements  ActivityManager{
 
     @Override
     public boolean delete(Long id) throws EntityNotFoundException, IdConflictException {
-        return false;
+        if(!activityRepository.existsById(id)) throw new EntityNotFoundException("Attività con id: "+id+" non trovata, impossibile cancellare!");
+        activityRepository.deleteById(id);
+        return !this.exists(id);
     }
 
     @Override
     public boolean exists(Long id) {
-        return false;
+        return activityRepository.existsById(id);
     }
 
     private void checkCreation(Activity activity) throws EntityNotFoundException, IdConflictException{

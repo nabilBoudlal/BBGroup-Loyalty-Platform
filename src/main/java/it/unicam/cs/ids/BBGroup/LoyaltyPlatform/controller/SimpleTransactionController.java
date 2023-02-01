@@ -49,15 +49,15 @@ public class SimpleTransactionController implements TransactionController{
     public Transaction update(Transaction object) throws EntityNotFoundException, IdConflictException {
         return null;
     }
-
+    @DeleteMapping("/delete/{id}")
     @Override
-    public boolean delete(Long id) throws IdConflictException, EntityNotFoundException {
-        return false;
+    public boolean delete(@PathVariable Long id) throws IdConflictException, EntityNotFoundException {
+        return transactionManager.delete(id);
     }
-
+    @GetMapping("/exists/{id}")
     @Override
-    public boolean exists(Long id) {
-        return false;
+    public boolean exists(@PathVariable Long id) {
+        return transactionManager.exists(id);
     }
 
     // A method that is called when a transaction is validated. It takes the card and transaction id as parameters and
@@ -67,7 +67,6 @@ public class SimpleTransactionController implements TransactionController{
         Transaction transaction= transactionManager.getInstance(transactionId);
         checkTransactionStatus(transaction);
         List<Rule> currentRules= ruleRepository.findByLoyaltyPrograms_LoyaltyProgramId(transaction.getActivity().getLoyaltyProgram().getLoyaltyProgramId());
-      // List<Rule> currentRules= ruleRepository.findByLoyaltyPrograms_ProgramName(transaction.getActivity().getProgramName());
         int currentPoint= transaction.getFidelityCard().getTotalPoints();
        currentRules.forEach(s -> s.applyRule(transaction));
        transaction.validate();
@@ -79,5 +78,5 @@ public class SimpleTransactionController implements TransactionController{
         if(transaction.isValidated()) throw new EntityNotFoundException("La transazione è già stata validata");
     }
 
-
 }
+

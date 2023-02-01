@@ -36,12 +36,14 @@ public class SimpleEmployeeManager implements EmployeeManager{
 
     @Override
     public boolean delete(Long id) throws EntityNotFoundException, IdConflictException {
-        return false;
+        if(!employeeRepository.existsById(id)) throw new EntityNotFoundException("Commesso/a con id: "+id+" non trovato!");
+        employeeRepository.deleteById(id);
+        return !this.exists(id);
     }
 
     @Override
     public boolean exists(Long id) {
-        return false;
+        return employeeRepository.existsById(id);
     }
 
     private void checkCreation(Employee employee) throws EntityNotFoundException, IdConflictException {

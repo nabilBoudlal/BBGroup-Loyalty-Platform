@@ -35,7 +35,9 @@ public class SimpleCostumerManager implements CostumerManager{
 
     @Override
     public boolean delete(Long id) throws IdConflictException, EntityNotFoundException {
-        return false;
+        if(!costumerRepository.existsById(id)) throw new EntityNotFoundException("Consumatore con id: "+id+" non trovato");
+        costumerRepository.deleteById(id);
+        return !this.exists(id);
     }
 
     @Override

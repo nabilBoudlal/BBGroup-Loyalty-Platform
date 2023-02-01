@@ -45,12 +45,14 @@ public class SimpleTransactionManager implements TransactionManager{
 
     @Override
     public boolean delete(Long id) throws EntityNotFoundException, IdConflictException {
-        return false;
+        if(!transactionRepository.existsById(id)) throw new EntityNotFoundException("Transazione con id: "+id+" non trovata!");
+        transactionRepository.deleteById(id);
+        return !this.exists(id);
     }
 
     @Override
     public boolean exists(Long id) {
-        return false;
+        return transactionRepository.existsById(id);
     }
 
     @Override

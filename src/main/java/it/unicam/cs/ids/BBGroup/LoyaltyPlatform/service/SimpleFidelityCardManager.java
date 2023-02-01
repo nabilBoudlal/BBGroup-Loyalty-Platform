@@ -38,11 +38,13 @@ public class SimpleFidelityCardManager implements FidelityCardManager{
 
     @Override
     public boolean delete(Long id) throws EntityNotFoundException, IdConflictException {
-        return false;
+        if(!fidelityCardRepository.existsById(id)) throw new EntityNotFoundException("Tessera con id: "+id+" non trovata!");
+        fidelityCardRepository.deleteById(id);
+        return !this.exists(id);
     }
 
     @Override
     public boolean exists(Long id) {
-        return false;
+        return fidelityCardRepository.existsById(id);
     }
 }
