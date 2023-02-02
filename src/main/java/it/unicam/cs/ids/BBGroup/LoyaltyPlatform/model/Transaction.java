@@ -17,7 +17,8 @@ public class Transaction {
     private  long activityId;
     private  long fidelityCardId;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transactionGenerator")
+    @SequenceGenerator(name = "transactionGenerator", allocationSize = 1)
     @Column(name = "transaction_id", nullable = false)
     private Long transactionId;
 

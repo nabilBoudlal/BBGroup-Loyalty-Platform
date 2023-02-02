@@ -15,7 +15,8 @@ import java.util.Objects;
 @NoArgsConstructor
 public class CostumerJoinRequest implements JoinRequest {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "costumerGenerator")
+    @SequenceGenerator(name = "costumerGenerator", allocationSize = 1)
     @Column(name = "id", nullable = false)
     private Long id;
 

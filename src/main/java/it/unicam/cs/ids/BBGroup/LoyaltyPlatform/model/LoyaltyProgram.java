@@ -18,7 +18,8 @@ import java.util.Set;
 @NoArgsConstructor
 public class LoyaltyProgram {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "loyaltyProgramGenerator")
+    @SequenceGenerator(name = "loyaltyProgramGenerator", allocationSize = 1)
     @Column(name = "loyalty_program_id", nullable = false)
     private Long loyaltyProgramId;
 

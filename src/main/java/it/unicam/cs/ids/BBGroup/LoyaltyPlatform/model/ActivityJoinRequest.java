@@ -17,7 +17,8 @@ import java.util.Date;
 public class ActivityJoinRequest implements JoinRequest{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "activityGenerator")
+    @SequenceGenerator(name = "activityGenerator", allocationSize = 1)
     @Column(name = "activity_request_id", nullable = false)
     private Long activityRequestId;
 

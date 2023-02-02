@@ -15,7 +15,8 @@ import java.util.Set;
 @Setter
 public class FidelityCard {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "fidelityCardGenerator")
+    @SequenceGenerator(name = "fidelityCardGenerator", allocationSize = 1)
     @Column(name = "card_id", nullable = false)
     private Long cardId;
 

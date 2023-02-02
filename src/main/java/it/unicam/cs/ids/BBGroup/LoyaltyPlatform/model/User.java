@@ -12,7 +12,8 @@ import lombok.Setter;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "progressiveNumber")
+    @SequenceGenerator(name = "progressiveNumber", allocationSize = 1)
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
