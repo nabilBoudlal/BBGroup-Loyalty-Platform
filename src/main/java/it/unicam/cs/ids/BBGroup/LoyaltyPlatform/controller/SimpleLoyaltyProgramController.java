@@ -4,13 +4,13 @@ import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.EntityNotFoundExceptio
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.Activity;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.LoyaltyProgram;
-import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.ActivityRepository;
-import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.LoyaltyProgramRepository;
-import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.RuleRepository;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.*;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service.ActivityManager;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service.LoyaltyProgramManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
 
 @RestController
 @RequestMapping("api/LoyaltyProgram")
@@ -25,6 +25,11 @@ public class SimpleLoyaltyProgramController implements LoyaltyProgramController{
     private ActivityRepository activityRepository;
     @Autowired
     private ActivityManager activityManager;
+
+    @Autowired
+    private CostumerRepository costumerRepository;
+    @Autowired
+    private FidelityCardRepository fidelityCardRepository;
 
 
     @GetMapping("/{id}")
@@ -77,8 +82,16 @@ public class SimpleLoyaltyProgramController implements LoyaltyProgramController{
         if(loyaltyProgramRepository.findByProgramName(programName).getEnrolledActivities().contains(activityRepository.findByEmail(activityEmail))) throw new IllegalStateException("Attività già iscritta al programma fedeltà inserito");
     }
 
+    public Collection<LoyaltyProgram> enrollCostumer(@PathVariable String activityEmail, @PathVariable String costumerEmail) throws EntityNotFoundException {
+        checkEnrollCostumer(activityEmail, costumerEmail);
+        activityRepository.findByEmail(activityEmail).getLoyaltyProgram().enrollCostumer(costumerRepository.findByEmail(costumerEmail));
+       return costumerRepository.findByEmail(costumerEmail).getFidelityCard().getLoyaltyPrograms();
+    }
 
-
+    private void checkEnrollCostumer(String activityEmail, String costumerEmail) throws EntityNotFoundException {
+        if(!activityRepository.existsByEmail(activityEmail)) throw new EntityNotFoundException("Attività non esistente");
+        if(!costumerRepository.existsByEmail(costumerEmail)) throw new EntityNotFoundException("Consumatore non presente");
+    }
 
 
 }

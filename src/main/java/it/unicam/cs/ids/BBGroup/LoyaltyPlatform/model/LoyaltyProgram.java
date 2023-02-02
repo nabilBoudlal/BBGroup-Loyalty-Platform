@@ -64,6 +64,11 @@ public class LoyaltyProgram {
         activity.setProgramName(this.programName);
     }
 
+    public void enrollCostumer(Costumer costumer) {
+        this.fidelityCards.add(costumer.getFidelityCard());
+        costumer.getFidelityCard().addLoyaltyProgram(this);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

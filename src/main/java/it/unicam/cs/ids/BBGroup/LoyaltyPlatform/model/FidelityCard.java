@@ -48,4 +48,8 @@ public class FidelityCard {
         return totalPoints;
     }
 
+    public void addLoyaltyProgram(LoyaltyProgram loyaltyProgram) {
+        this.loyaltyPrograms.add(loyaltyProgram);
+    }
+
 }
