@@ -62,12 +62,19 @@ public class SimpleLoyaltyProgramController implements LoyaltyProgramController{
     }
 
 
-
     @PostMapping("/enrollActivity/{programName}/{activityEmail}")
     public Activity enrollActivity(@PathVariable String programName, @PathVariable String activityEmail) throws IdConflictException, EntityNotFoundException {
+        checkActivity(activityEmail,programName);
         loyaltyProgramRepository.findByProgramName(programName).enrollActivity(activityRepository.findByEmail(activityEmail));
         activityManager.updateWithLoyaltyProgram(activityRepository.findByEmail(activityEmail).getUserId(),loyaltyProgramRepository.findByProgramName(programName));
         return activityRepository.findByEmail(activityEmail);
+    }
+
+
+    private void checkActivity(String activityEmail, String programName) throws EntityNotFoundException, IdConflictException{
+        if(!activityRepository.existsByEmail(activityEmail)) throw  new EntityNotFoundException("Attività non esistente!");
+        if(!loyaltyProgramRepository.existsByProgramName(programName)) throw new EntityNotFoundException("Programma fedeltà non esistente!");
+        if(loyaltyProgramRepository.findByProgramName(programName).getEnrolledActivities().contains(activityRepository.findByEmail(activityEmail))) throw new IllegalStateException("Attività già iscritta al programma fedeltà inserito");
     }
 
 

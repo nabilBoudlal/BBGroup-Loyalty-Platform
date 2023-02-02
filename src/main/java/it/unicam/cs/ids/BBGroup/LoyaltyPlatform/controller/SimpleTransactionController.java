@@ -6,10 +6,7 @@ import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.FidelityCard;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.LoyaltyProgram;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.Transaction;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.rules.Rule;
-import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.FidelityCardRepository;
-import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.LoyaltyProgramRepository;
-import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.RuleRepository;
-import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.TransactionRepository;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.*;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service.FidelityCardManager;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service.TransactionManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +30,8 @@ public class SimpleTransactionController implements TransactionController{
     private RuleRepository ruleRepository;
     @Autowired
     private TransactionRepository transactionRepository;
+    @Autowired
+    private ActivityRepository activityRepository;
 
     @GetMapping("/{id}")
     @Override
@@ -42,6 +41,7 @@ public class SimpleTransactionController implements TransactionController{
     @PostMapping("/createNew")
     @Override
     public Transaction create(@RequestBody Transaction object) throws EntityNotFoundException, IdConflictException {
+        this.checkCreationTransaction(object);
         return transactionManager.create(object);
     }
 
@@ -66,16 +66,35 @@ public class SimpleTransactionController implements TransactionController{
     public int validateTransaction(@PathVariable Long cardId, @PathVariable Long transactionId) throws EntityNotFoundException, IdConflictException {
         Transaction transaction= transactionManager.getInstance(transactionId);
         checkTransactionStatus(transaction);
+        applyRules(transaction);
+        transaction.validate();
+        return updateStatusCard(transactionId);
+    }
+
+    private int updateStatusCard(Long transactionId) throws EntityNotFoundException, IdConflictException {
+        transactionManager.updateStatus(transactionId);
+        return cardManager.updatePoints(transactionManager.getInstance(transactionId).getFidelityCard(),
+                transactionManager.getInstance(transactionId).getFidelityCard().getTotalPoints());
+    }
+
+    /**
+     * This method takes all the rules with the same loyalty program id and saves them in a list
+     * Then it applies them to the transaction
+     * @param transaction to validate
+     */
+    private void applyRules(Transaction transaction) {
         List<Rule> currentRules= ruleRepository.findByLoyaltyPrograms_LoyaltyProgramId(transaction.getActivity().getLoyaltyProgram().getLoyaltyProgramId());
         int currentPoint= transaction.getFidelityCard().getTotalPoints();
-       currentRules.forEach(s -> s.applyRule(transaction));
-       transaction.validate();
-       transactionManager.updateStatus(transactionId);
-       return cardManager.updatePoints(transaction.getFidelityCard(),transaction.getFidelityCard().getTotalPoints());
+        currentRules.forEach(s -> s.applyRule(transaction));
     }
 
     private void checkTransactionStatus(Transaction transaction) throws EntityNotFoundException {
         if(transaction.isValidated()) throw new EntityNotFoundException("La transazione è già stata validata");
+    }
+
+    private void checkCreationTransaction(Transaction transaction) throws EntityNotFoundException, IdConflictException{
+        if(!fidelityCardRepository.existsById(transaction.getFidelityCardId())) throw new EntityNotFoundException("Tessera non valida!");
+        if(!activityRepository.existsById(transaction.getActivityId())) throw new EntityNotFoundException("Attività non valida!");
     }
 
 }

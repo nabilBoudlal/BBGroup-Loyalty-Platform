@@ -4,5 +4,6 @@ import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.LoyaltyProgram;
 import org.springframework.data.repository.CrudRepository;
 
 public interface LoyaltyProgramRepository extends CrudRepository<LoyaltyProgram, Long> {
+    boolean existsByProgramName(String programName);
     LoyaltyProgram findByProgramName(String programName);
 }
