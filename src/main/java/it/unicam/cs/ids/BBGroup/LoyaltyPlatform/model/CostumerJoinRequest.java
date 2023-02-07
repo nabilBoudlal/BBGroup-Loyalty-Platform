@@ -34,7 +34,7 @@ public class CostumerJoinRequest implements JoinRequest {
     private String phone;
 
 
-    public CostumerJoinRequest(String costumerEmail, String costumerName, String costumerSurname, String address, String phone) {
+    public CostumerJoinRequest( String costumerName,String costumerSurname, String address,String costumerEmail,  String phone) {
         this.costumerEmail = costumerEmail;
         this.costumerName = costumerName;
         this.costumerSurname = costumerSurname;

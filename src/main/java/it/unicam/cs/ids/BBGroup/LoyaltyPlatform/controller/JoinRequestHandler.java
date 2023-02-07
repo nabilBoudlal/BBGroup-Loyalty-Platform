@@ -91,7 +91,7 @@ public class JoinRequestHandler {
     @PostMapping("validateRequestCostumer/{requestId}")
     public Costumer valideRequestCostumer(@PathVariable Long requestId) throws EntityNotFoundException, IdConflictException {
         CostumerJoinRequest request = costumerJoinRequestManager.getInstance(requestId);
-        Costumer costumer = new Costumer(request.getCostumerEmail(), request.getCostumerName(), request.getCostumerSurname(), request.getAddress(), request.getPhone());
+        Costumer costumer = new Costumer(request.getCostumerName(),request.getCostumerSurname(),request.getAddress(),request.getCostumerEmail(), request.getPhone());
         request.validate();
         costumerManager.create(costumer);
         this.createNewCard(costumer);

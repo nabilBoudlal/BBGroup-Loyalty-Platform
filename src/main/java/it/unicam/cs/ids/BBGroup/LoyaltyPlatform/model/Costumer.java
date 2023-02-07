@@ -20,8 +20,7 @@ public class Costumer extends User{
     private FidelityCard fidelityCard;
 
     public Costumer(String name, String surname, String address, String email, String phone) {
-        super(name, address, email, phone);
-        this.surname = surname;
+        super(name,surname, address, email, phone);
     }
 
     public void addCard(FidelityCard card) {

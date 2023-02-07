@@ -19,7 +19,7 @@ public class PlatformAdmin extends User{
 
 
     public PlatformAdmin(String name, String surname, String email, String phone) {
-        super(name, surname, email, phone);
+        super(name, surname, null,email, phone);
     }
 
 

@@ -23,6 +23,7 @@ public class FidelityCard {
     private int totalPoints;
 
     private String level;
+    private double cashback;
 
     @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "costumer_user_id", unique = true)
@@ -37,6 +38,7 @@ public class FidelityCard {
     public FidelityCard(Costumer costumer) {
         this.costumer = costumer;
         totalPoints=0;
+        cashback=0.0;
     }
 
     public void addPoints(int value) {
@@ -52,4 +54,5 @@ public class FidelityCard {
         this.loyaltyPrograms.add(loyaltyProgram);
     }
 
+    public void addCashback(double value) {this.cashback += value;}
 }

@@ -2,6 +2,7 @@ package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.controller;
 
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.EntityNotFoundException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.rules.PersonalizedCashbackRule;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.rules.Rule;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.rules.SimpleRuleLevel;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.rules.SimpleRulePoint;
@@ -20,7 +21,6 @@ public class SimpleRuleController implements RuleController{
         return ruleManager.getInstance(id);
     }
 
-
     @Override
     public Rule create(Rule object) throws EntityNotFoundException, IdConflictException {
         return ruleManager.create(object);
@@ -33,6 +33,12 @@ public class SimpleRuleController implements RuleController{
     @PostMapping("/createNewLevelRule")
     public Rule createNewLevelRule() throws EntityNotFoundException, IdConflictException {
         return ruleManager.create(new SimpleRuleLevel());
+    }
+
+    @PostMapping("/createNewPersonalizedRule/{type}/{value}")
+    public Rule createNewPersonalizedRule(@PathVariable String type,@PathVariable int value) throws IdConflictException, EntityNotFoundException {
+        if(!type.equals("cashback"))throw  new IllegalArgumentException("Tipologia non valida");
+        return ruleManager.create(new PersonalizedCashbackRule(value));
     }
 
     @Override

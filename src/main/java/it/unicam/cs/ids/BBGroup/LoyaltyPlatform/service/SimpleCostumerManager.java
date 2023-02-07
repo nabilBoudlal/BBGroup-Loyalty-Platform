@@ -3,6 +3,7 @@ package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.EntityNotFoundException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.Costumer;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.LoyaltyProgram;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.CostumerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,12 @@ public class SimpleCostumerManager implements CostumerManager{
         return null;
     }
 
+    @Override
+    public Costumer updateWithLoyaltyProgram(Long costumerId, LoyaltyProgram program) throws EntityNotFoundException, IdConflictException {
+        Costumer costumer= costumerRepository.findById(costumerId).orElseThrow();
+        costumer.getFidelityCard().addLoyaltyProgram(program);
+        return  costumerRepository.save(costumer);
+    }
     @Override
     public boolean delete(Long id) throws IdConflictException, EntityNotFoundException {
         if(!costumerRepository.existsById(id)) throw new EntityNotFoundException("Consumatore con id: "+id+" non trovato");

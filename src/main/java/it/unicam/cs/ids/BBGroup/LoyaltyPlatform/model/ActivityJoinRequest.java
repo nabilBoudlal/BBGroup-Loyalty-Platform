@@ -36,12 +36,12 @@ public class ActivityJoinRequest implements JoinRequest{
     private String phone;
 
 
-    public ActivityJoinRequest(String activityEmail, String activityName, String vatCode, String address, String phone) {
-        this.activityEmail = activityEmail;
+    public ActivityJoinRequest(String activityName, String address,String activityEmail, String phone, String vatCode) {
         this.activityName = activityName;
-        this.vatCode = vatCode;
         this.address = address;
+        this.activityEmail = activityEmail;
         this.phone = phone;
+        this.vatCode = vatCode;
         this.date = Calendar.getInstance().getTime();
     }
 
@@ -54,11 +54,18 @@ public class ActivityJoinRequest implements JoinRequest{
 
         ActivityJoinRequest that = (ActivityJoinRequest) o;
 
-        return getActivityEmail() != null ? getActivityEmail().equals(that.getActivityEmail()) : that.getActivityEmail() == null;
+        if (getActivityRequestId() != null ? !getActivityRequestId().equals(that.getActivityRequestId()) : that.getActivityRequestId() != null)
+            return false;
+        if (getActivityEmail() != null ? !getActivityEmail().equals(that.getActivityEmail()) : that.getActivityEmail() != null)
+            return false;
+        return getPhone() != null ? getPhone().equals(that.getPhone()) : that.getPhone() == null;
     }
 
     @Override
     public int hashCode() {
-        return getActivityEmail() != null ? getActivityEmail().hashCode() : 0;
+        int result = getActivityRequestId() != null ? getActivityRequestId().hashCode() : 0;
+        result = 31 * result + (getActivityEmail() != null ? getActivityEmail().hashCode() : 0);
+        result = 31 * result + (getPhone() != null ? getPhone().hashCode() : 0);
+        return result;
     }
 }

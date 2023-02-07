@@ -3,6 +3,9 @@ package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.controller;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.EntityNotFoundException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.ActivityJoinRequest;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.Costumer;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.ActivityRepository;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.FidelityCardRepository;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service.ActivityJoinRequestManager;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service.PlatformAdminManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,10 @@ public class SimpleActivityJoinRequestController implements ActivityJoinRequestC
 
     @Autowired
     private ActivityJoinRequestManager requestManager;
+    @Autowired
+    private ActivityRepository activityRepository;
+    @Autowired
+    private FidelityCardRepository fidelityCardRepository;
 
     @Override
     @GetMapping("/{id}")
@@ -43,4 +50,6 @@ public class SimpleActivityJoinRequestController implements ActivityJoinRequestC
     public boolean exists(Long id) {
         return requestManager.exists(id);
     }
+
+
 }

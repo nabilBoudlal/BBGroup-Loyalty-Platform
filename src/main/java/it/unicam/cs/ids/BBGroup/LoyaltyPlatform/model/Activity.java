@@ -25,7 +25,7 @@ public class Activity extends User {
 
 
     public Activity(String name, String email, String vatCode, String address, String phone) {
-        super(name, address, email, phone);
+        super(name, "",address, email, phone);
         this.vatCode = vatCode;
         }
 

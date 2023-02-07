@@ -20,8 +20,7 @@ public class Employee extends User{
 
 
     public Employee(String name, String surname, String address, String email, String phone) {
-        super(name, address, email, phone);
-        this.surname = surname;
+        super(name,surname, address, email, phone);
     }
 
 

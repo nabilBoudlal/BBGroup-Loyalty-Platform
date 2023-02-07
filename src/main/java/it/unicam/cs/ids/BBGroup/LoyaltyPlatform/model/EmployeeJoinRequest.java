@@ -34,7 +34,7 @@ public class EmployeeJoinRequest implements JoinRequest{
     private String phone;
 
 
-    public EmployeeJoinRequest(String employeeEmail, String employeeName, String employeeSurname, String address, String phone) {
+    public EmployeeJoinRequest( String employeeName,String employeeSurname, String address,String employeeEmail,  String phone) {
         this.employeeEmail = employeeEmail;
         this.employeeName = employeeName;
         this.employeeSurname = employeeSurname;

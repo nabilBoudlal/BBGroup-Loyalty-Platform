@@ -2,10 +2,10 @@ package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.controller;
 
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.EntityNotFoundException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
-import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.Activity;
-import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.LoyaltyProgram;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.*;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.*;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service.ActivityManager;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service.CostumerManager;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service.LoyaltyProgramManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +25,8 @@ public class SimpleLoyaltyProgramController implements LoyaltyProgramController{
     private ActivityRepository activityRepository;
     @Autowired
     private ActivityManager activityManager;
-
+    @Autowired
+    private CostumerManager costumerManager;
     @Autowired
     private CostumerRepository costumerRepository;
     @Autowired
@@ -75,17 +76,21 @@ public class SimpleLoyaltyProgramController implements LoyaltyProgramController{
         return activityRepository.findByEmail(activityEmail);
     }
 
-
     private void checkActivity(String activityEmail, String programName) throws EntityNotFoundException, IdConflictException{
         if(!activityRepository.existsByEmail(activityEmail)) throw  new EntityNotFoundException("Attività non esistente!");
         if(!loyaltyProgramRepository.existsByProgramName(programName)) throw new EntityNotFoundException("Programma fedeltà non esistente!");
         if(loyaltyProgramRepository.findByProgramName(programName).getEnrolledActivities().contains(activityRepository.findByEmail(activityEmail))) throw new IllegalStateException("Attività già iscritta al programma fedeltà inserito");
     }
-
-    public Collection<LoyaltyProgram> enrollCostumer(@PathVariable String activityEmail, @PathVariable String costumerEmail) throws EntityNotFoundException {
+    @PostMapping("/enrollCostumer/{activityEmail}/{costumerEmail}")
+    public Collection<LoyaltyProgram> enrollCostumer(@PathVariable String activityEmail, @PathVariable String costumerEmail) throws EntityNotFoundException, IdConflictException {
         checkEnrollCostumer(activityEmail, costumerEmail);
         activityRepository.findByEmail(activityEmail).getLoyaltyProgram().enrollCostumer(costumerRepository.findByEmail(costumerEmail));
+        costumerManager.updateWithLoyaltyProgram(costumerRepository.findByEmail(costumerEmail).getUserId(),activityRepository.findByEmail(activityEmail).getLoyaltyProgram());
        return costumerRepository.findByEmail(costumerEmail).getFidelityCard().getLoyaltyPrograms();
+    }
+    @GetMapping("/listCostumer/{programName}")
+    public Iterable<FidelityCard> getCostumersProgram(@PathVariable  String programName) {
+        return loyaltyProgramRepository.findByProgramName(programName).getFidelityCards();
     }
 
     private void checkEnrollCostumer(String activityEmail, String costumerEmail) throws EntityNotFoundException {

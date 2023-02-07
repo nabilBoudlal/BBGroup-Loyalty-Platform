@@ -18,7 +18,7 @@ public abstract class User {
     private Long userId;
 
     private String name;
-
+    private String surname;
     private String address;
 
     @Column(nullable = false, unique = true)
@@ -27,8 +27,9 @@ public abstract class User {
     @Column(nullable = false, unique = true)
     private String phone;
 
-    public User(String name, String address, String email, String phone) {
+    public User(String name, String surname,String address, String email, String phone) {
         this.name = name;
+        this.surname=surname;
         this.address = address;
         this.email = email;
         this.phone = phone;
