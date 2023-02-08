@@ -22,7 +22,7 @@ public class PersonalizedCashbackRule extends SimpleRulePoint {
     @Override
     public void applyRule(Transaction transaction) {
         super.applyRule(transaction);
-        transaction.getFidelityCard().addCashback(transaction.getPrice() * (double) discount / 100);
+        transaction.getFidelityCard().addCashback(Math.round(transaction.getPrice() * (double) discount / 100));
         System.out.println(transaction.getFidelityCard().getCashback());
     }
 }

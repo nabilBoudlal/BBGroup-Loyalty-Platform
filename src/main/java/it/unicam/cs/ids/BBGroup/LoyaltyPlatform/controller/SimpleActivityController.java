@@ -46,9 +46,9 @@ public class SimpleActivityController implements ActivityController{
     @DeleteMapping("/delete/{id}")
     @Override
     public boolean delete(@PathVariable Long id) throws IdConflictException, EntityNotFoundException { return activityManager.delete(id);}
-
+    @GetMapping("/exists/{id}")
     @Override
-    public boolean exists(Long id) {return activityManager.exists(id);}
+    public boolean exists(@PathVariable Long id) {return activityManager.exists(id);}
 
     @GetMapping("/listEnrolledCostumers/{activityEmail}")
     public List<Costumer> getEnrolledCostumers(@PathVariable String activityEmail){

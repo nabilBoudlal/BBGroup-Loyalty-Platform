@@ -2,8 +2,6 @@ package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.controller;
 
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.EntityNotFoundException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
-import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.FidelityCard;
-import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.LoyaltyProgram;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.Transaction;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.rules.Rule;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.*;

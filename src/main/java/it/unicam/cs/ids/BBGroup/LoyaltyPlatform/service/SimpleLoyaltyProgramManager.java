@@ -4,6 +4,7 @@ import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.EntityNotFoundExceptio
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.LoyaltyProgram;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.LoyaltyProgramRepository;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.RuleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -13,6 +14,8 @@ import org.springframework.validation.annotation.Validated;
 public class SimpleLoyaltyProgramManager implements LoyaltyProgramManager{
     @Autowired
     private LoyaltyProgramRepository loyaltyProgramRepository;
+    @Autowired
+    private RuleRepository ruleRepository;
 
     @Override
     public LoyaltyProgram getInstance(Long id) throws EntityNotFoundException {
@@ -40,5 +43,12 @@ public class SimpleLoyaltyProgramManager implements LoyaltyProgramManager{
     @Override
     public boolean exists(Long id) {
         return loyaltyProgramRepository.existsById(id);
+    }
+
+    @Override
+    public LoyaltyProgram updateWithRule(String programName, String ruleName) {
+        LoyaltyProgram loyaltyProgram = loyaltyProgramRepository.findByProgramName(programName);
+        loyaltyProgram.addRule(ruleRepository.findByRuleName(ruleName));
+        return loyaltyProgramRepository.save(loyaltyProgram);
     }
 }
