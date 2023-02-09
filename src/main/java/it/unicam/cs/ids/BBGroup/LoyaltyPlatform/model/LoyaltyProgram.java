@@ -64,6 +64,12 @@ public class LoyaltyProgram {
         activity.setProgramName(this.programName);
     }
 
+    public void unEnrolledActivity(Activity activity) {
+        this.enrolledActivities.remove(activity);
+        activity.setLoyaltyProgram(null);
+        activity.setProgramName(null);
+    }
+
     public void enrollCostumer(Costumer costumer) {
         this.fidelityCards.add(costumer.getFidelityCard());
         costumer.getFidelityCard().addLoyaltyProgram(this);

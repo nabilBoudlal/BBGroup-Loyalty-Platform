@@ -28,6 +28,9 @@ public class SimpleActivityController implements ActivityController{
     @Autowired
     private FidelityCardRepository fidelityCardRepository;
 
+    @Autowired
+    private LoyaltyProgramController loyaltyProgramController;
+
     @GetMapping("/{id}")
     @Override
     public Activity getInstance(@PathVariable Long id) throws EntityNotFoundException {
@@ -45,7 +48,10 @@ public class SimpleActivityController implements ActivityController{
     }
     @DeleteMapping("/delete/{id}")
     @Override
-    public boolean delete(@PathVariable Long id) throws IdConflictException, EntityNotFoundException { return activityManager.delete(id);}
+    public boolean delete(@PathVariable Long id) throws IdConflictException, EntityNotFoundException {
+        loyaltyProgramController.unEnrollActivity(this.getInstance(id).getProgramName(), this.getInstance(id).getEmail());
+        return activityManager.delete(id);
+    }
     @GetMapping("/exists/{id}")
     @Override
     public boolean exists(@PathVariable Long id) {return activityManager.exists(id);}

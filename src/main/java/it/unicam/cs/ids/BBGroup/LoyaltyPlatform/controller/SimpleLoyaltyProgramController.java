@@ -84,6 +84,21 @@ public class SimpleLoyaltyProgramController implements LoyaltyProgramController{
         costumerManager.updateWithLoyaltyProgram(costumerRepository.findByEmail(costumerEmail).getUserId(),activityRepository.findByEmail(activityEmail).getLoyaltyProgram());
        return costumerRepository.findByEmail(costumerEmail).getFidelityCard().getLoyaltyPrograms();
     }
+    @Override
+    @PostMapping("/unEnrollActivity/{programName}/{activityEmail}")
+    public boolean unEnrollActivity(@PathVariable String programName, @PathVariable String activityEmail) throws IdConflictException, EntityNotFoundException {
+        loyaltyProgramRepository.findByProgramName(programName).unEnrolledActivity(activityRepository.findByEmail(activityEmail));
+        updateActivityAfterUnsubscribed(activityEmail);
+        return !loyaltyProgramRepository.findByProgramName(programName).getEnrolledActivities().contains(activityRepository.findByEmail(activityEmail));
+    }
+
+    private void updateActivityAfterUnsubscribed(String activityEmail) {
+        Activity activity = activityRepository.findByEmail(activityEmail);
+        activity.setLoyaltyProgram(null);
+        activityRepository.save(activity);
+    }
+
+
     @GetMapping("/listCostumer/{programName}")
     public Iterable<FidelityCard> getCostumersProgram(@PathVariable  String programName) {
         return loyaltyProgramRepository.findByProgramName(programName).getFidelityCards();

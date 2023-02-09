@@ -33,16 +33,16 @@ public class JoinRequestHandler {
     @Autowired
     private EmployeeJoinRequestRepository employeeJoinRequestRepository;
     @Autowired
-    private ActivityManager activityManager;
+    private ActivityController activityController;
 
     @Autowired
-    private CostumerManager costumerManager;
+    private CostumerController costumerController;
 
     @Autowired
-    private EmployeeManager employeeManager;
+    private EmployeeController employeeController;
 
     @Autowired
-    private FidelityCardManager fidelityCardManager;
+    private FidelityCardController fidelityCardController;
 
     @GetMapping("/listActivity")
     public Iterable<ActivityJoinRequest> getActivitiesRequests(){
@@ -85,7 +85,7 @@ public class JoinRequestHandler {
         ActivityJoinRequest request = requestManager.getInstance(requestId);
         Activity activity= new Activity( request.getActivityName(), request.getActivityEmail(), request.getVatCode(), request.getAddress(), request.getPhone());
         request.validate();
-        return activityManager.create(activity);
+        return activityController.create(activity);
     }
 
     @PostMapping("validateRequestCostumer/{requestId}")
@@ -93,9 +93,9 @@ public class JoinRequestHandler {
         CostumerJoinRequest request = costumerJoinRequestManager.getInstance(requestId);
         Costumer costumer = new Costumer(request.getCostumerName(),request.getCostumerSurname(),request.getAddress(),request.getCostumerEmail(), request.getPhone());
         request.validate();
-        costumerManager.create(costumer);
-        this.createNewCard(costumer);
-        return costumerManager.getInstance(costumer.getUserId());
+        costumerController.create(costumer);
+        fidelityCardController.addNewCardToCostumer(costumer);
+        return costumerController.getInstance(costumer.getUserId());
     }
 
     @PostMapping("validateRequestEmployee/{employeeId}")
@@ -103,11 +103,6 @@ public class JoinRequestHandler {
         EmployeeJoinRequest request = employeeJoinRequestManager.getInstance(employeeId);
         Employee employee = new Employee(request.getEmployeeEmail(), request.getEmployeeName(), request.getEmployeeSurname(), request.getAddress(), request.getPhone());
         request.validate();
-        return employeeManager.create(employee);
-    }
-
-    private void createNewCard(Costumer costumer) throws IdConflictException, EntityNotFoundException {
-        FidelityCard card= new FidelityCard(costumer);
-        costumer.addCard(fidelityCardManager.create(card));
+        return employeeController.create(employee);
     }
 }
