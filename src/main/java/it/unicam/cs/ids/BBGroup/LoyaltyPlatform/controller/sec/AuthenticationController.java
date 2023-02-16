@@ -1,5 +1,9 @@
-package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.controller;
+package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.controller.sec;
 
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.auth.AuthenticationRequest;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.auth.AuthenticationResponse;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.auth.AuthenticationService;
+import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.auth.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

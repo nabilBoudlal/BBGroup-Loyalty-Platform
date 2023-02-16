@@ -1,4 +1,4 @@
-package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.controller;
+package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.auth;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

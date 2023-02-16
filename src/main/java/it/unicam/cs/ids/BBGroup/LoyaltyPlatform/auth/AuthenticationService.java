@@ -1,11 +1,10 @@
-package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.controller;
+package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.auth;
 
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.Role;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model.User;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.repository.UserRepository;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.security.JwtService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.codec.KotlinSerializationBinaryEncoder;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;

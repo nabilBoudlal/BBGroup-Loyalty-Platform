@@ -1,4 +1,4 @@
-package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.controller;
+package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,14 +7,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class RegisterRequest {
-
-    private String firstName;
-    private String lastName;
+@NoArgsConstructor
+public class AuthenticationRequest {
     private String email;
-
-    private String phone;
     private String password;
 }
