@@ -1,4 +1,4 @@
-package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.controller;
+package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
