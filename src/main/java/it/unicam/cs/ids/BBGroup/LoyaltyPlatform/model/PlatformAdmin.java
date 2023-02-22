@@ -1,14 +1,13 @@
 package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.Transient;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+/*
+ * This class represent a platform admin, which is also an entity in the db
+ */
 
 @Entity
 @NoArgsConstructor

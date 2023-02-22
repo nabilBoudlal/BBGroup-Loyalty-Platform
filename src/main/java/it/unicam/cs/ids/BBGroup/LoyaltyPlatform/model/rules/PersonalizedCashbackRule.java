@@ -6,6 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/*
+ * This class represent a cashback rule that extend a standard point rule
+ * The discount can be personalized
+ */
+
 @Entity
 @Setter
 @Getter
@@ -23,6 +28,5 @@ public class PersonalizedCashbackRule extends SimpleRulePoint {
     public void applyRule(Transaction transaction) {
         super.applyRule(transaction);
         transaction.getFidelityCard().addCashback(Math.round(transaction.getPrice() * (double) discount / 100));
-        System.out.println(transaction.getFidelityCard().getCashback());
     }
 }

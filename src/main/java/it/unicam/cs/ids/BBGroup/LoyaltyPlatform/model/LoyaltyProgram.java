@@ -11,7 +11,9 @@ import org.hibernate.Hibernate;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
-
+/*
+ * This class represent a loyalty program, which is also an entity in the db
+ */
 @Entity
 @Getter
 @Setter

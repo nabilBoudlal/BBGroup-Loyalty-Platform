@@ -1,6 +1,8 @@
 package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model;
 
-import jakarta.persistence.Entity;
+/*
+ * This interface represent a join request, which is also an entity in the db
+ */
 
 public interface JoinRequest {
 

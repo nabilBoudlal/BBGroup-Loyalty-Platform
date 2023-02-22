@@ -10,7 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /*
- * This class represent an activity's join request , which is also an entity in the db
+ * This class represent an activity's join request, which is also an entity in the db
  */
 @Entity
 @NoArgsConstructor

@@ -34,7 +34,7 @@ public class SimpleCostumerController implements CostumerController{
 
     @Override
     public Costumer create(Costumer object) throws EntityNotFoundException, IdConflictException {
-        return null;
+        return costumerManager.create(object);
     }
 
     @Override

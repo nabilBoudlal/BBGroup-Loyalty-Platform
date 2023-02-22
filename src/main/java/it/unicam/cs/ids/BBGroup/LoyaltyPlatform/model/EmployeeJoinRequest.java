@@ -8,7 +8,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
 import java.util.Objects;
-
+/*
+ * This class represent an employee's join request, which is also an entity in the db
+ */
 @Entity
 @Getter
 @Setter

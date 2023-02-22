@@ -1,14 +1,13 @@
 package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.Optional;
-
+/*
+ * This class represent a Transaction, which is also an entity in the db
+ */
 @Entity
 @Getter
 @Setter
@@ -36,7 +35,7 @@ public class Transaction {
     @JoinColumn(name = "activity_user_id")
     private Activity activity;
 
-    public Transaction(int price, boolean validated, FidelityCard fidelityCard, Activity activity) {
+    public Transaction(int price, FidelityCard fidelityCard, Activity activity) {
         this.price = price;
         this.validated = false;
         this.fidelityCard = fidelityCard;
@@ -57,7 +56,7 @@ public class Transaction {
 
 
 
-    public boolean validate(){ return this.validated= true;}
+    public void validate(){ this.validated= true;}
 
 
 }

@@ -8,7 +8,9 @@ import lombok.Setter;
 
 import java.util.HashMap;
 import java.util.Map;
-
+/*
+ * This class represent a standard level rule with 3 threshold
+ */
 @Entity
 @Getter
 @Setter

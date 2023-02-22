@@ -6,7 +6,9 @@ import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+/*
+ * This class represent a Costumer, which is also an entity in the db
+ */
 @Entity
 @NoArgsConstructor
 @Setter

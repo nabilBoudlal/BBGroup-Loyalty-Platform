@@ -12,6 +12,11 @@ import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
+/*
+ * This abstract class represent a general rule which is applied to a transaction
+ * This is also an entity in the db
+ */
+
 @Entity
 @Getter
 @Setter

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 /*
- * This class represent an Activity, which is also an entity in the db
+ * This class represent an activity, which is also an entity in the db
  */
 @Entity
 @Getter

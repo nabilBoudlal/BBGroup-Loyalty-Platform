@@ -2,7 +2,9 @@ package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
+/*
+ * This abstract class represent a User, which is also an entity in the db
+ */
 @Entity
 @Getter
 @Setter
