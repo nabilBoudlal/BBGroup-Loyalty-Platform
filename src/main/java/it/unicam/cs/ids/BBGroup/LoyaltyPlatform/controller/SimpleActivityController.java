@@ -37,9 +37,10 @@ public class SimpleActivityController implements ActivityController{
         return activityManager.getInstance(id);
     }
 
+    @PostMapping("/create")
     @Override
     public Activity create(Activity object) throws EntityNotFoundException, IdConflictException {
-        return null;
+        return activityManager.create(object);
     }
 
     @Override
@@ -52,9 +53,9 @@ public class SimpleActivityController implements ActivityController{
         loyaltyProgramController.unEnrollActivity(this.getInstance(id).getProgramName(), this.getInstance(id).getEmail());
         return activityManager.delete(id);
     }
-    @GetMapping("/exists/{id}")
+
     @Override
-    public boolean exists(@PathVariable Long id) {return activityManager.exists(id);}
+    public boolean exists(Long id) {return activityManager.exists(id);}
 
     @GetMapping("/listEnrolledCostumers/{activityEmail}")
     public List<Costumer> getEnrolledCostumers(@PathVariable String activityEmail){

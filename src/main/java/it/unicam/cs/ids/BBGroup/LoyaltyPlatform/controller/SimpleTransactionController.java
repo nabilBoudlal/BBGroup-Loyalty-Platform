@@ -69,6 +69,7 @@ public class SimpleTransactionController implements TransactionController{
         return updateStatusCard(transactionId);
     }
 
+
     private int updateStatusCard(Long transactionId) throws EntityNotFoundException, IdConflictException {
         transactionManager.updateStatus(transactionId);
         return cardManager.updatePoints(transactionManager.getInstance(transactionId).getFidelityCard(),

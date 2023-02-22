@@ -66,6 +66,7 @@ public class SimpleLoyaltyProgramController implements LoyaltyProgramController{
     @PostMapping("/createProgramWithRule/{programName}/{ruleName}")
     public LoyaltyProgram createLoyaltyProgramWithRule(@PathVariable String programName,@PathVariable String ruleName) throws IdConflictException, EntityNotFoundException {
         LoyaltyProgram newProgram= (new LoyaltyProgram(programName, ruleRepository.findByRuleName(ruleName)));
+        //checkProgram(newProgram)
         return loyaltyProgramManager.create(newProgram);
     }
 
@@ -124,6 +125,12 @@ public class SimpleLoyaltyProgramController implements LoyaltyProgramController{
     private void checkEnrollCostumer(String activityEmail, String costumerEmail) throws EntityNotFoundException {
         if(!activityRepository.existsByEmail(activityEmail)) throw new EntityNotFoundException("Attività non esistente");
         if(!costumerRepository.existsByEmail(costumerEmail)) throw new EntityNotFoundException("Consumatore non presente");
+        checkIfCostumerIsAlreadyEnrolled(activityEmail, costumerEmail);
+    }
+
+    private void checkIfCostumerIsAlreadyEnrolled(String activityEmail, String costumerEmail) {
+        if(costumerRepository.findByEmail(costumerEmail).getFidelityCard().getLoyaltyPrograms().contains(activityRepository.findByEmail(activityEmail).getLoyaltyProgram()))
+            throw new IllegalArgumentException("Consumatore gà iscritto al Programma");
     }
 
 

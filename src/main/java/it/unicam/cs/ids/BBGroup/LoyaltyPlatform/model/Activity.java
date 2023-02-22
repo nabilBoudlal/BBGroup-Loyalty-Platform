@@ -1,17 +1,16 @@
 package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-
+/*
+ * This class represent an Activity, which is also an entity in the db
+ */
 @Entity
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Activity extends User {
 

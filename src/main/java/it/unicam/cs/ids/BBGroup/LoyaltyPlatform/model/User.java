@@ -2,20 +2,14 @@ package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import java.util.Collection;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class User implements UserDetails {
+public abstract class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "progressiveNumber")
     @SequenceGenerator(name = "progressiveNumber", allocationSize = 1)
@@ -32,14 +26,10 @@ public class User implements UserDetails {
     @Column(nullable = false, unique = true)
     private String phone;
 
-    private String password;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
-    public User(String name, String surname,String address, String email, String phone) {
+    public User(String name, String surname, String address, String email, String phone) {
         this.name = name;
-        this.surname=surname;
+        this.surname = surname;
         this.address = address;
         this.email = email;
         this.phone = phone;
@@ -73,38 +63,4 @@ public class User implements UserDetails {
                 '}';
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }
