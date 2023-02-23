@@ -2,7 +2,7 @@ package it.unicam.cs.ids.BBGroup.LoyaltyPlatform.controller;
 
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.EntityNotFoundException;
 import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.exception.IdConflictException;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 public interface EntityController <T,I>{
     T getInstance(I id) throws EntityNotFoundException;

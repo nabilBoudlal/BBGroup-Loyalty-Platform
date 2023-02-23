@@ -70,4 +70,7 @@ public class SimpleEmployeeController implements EmployeeController{
        transactionController.validateTransaction(cst.getFidelityCard().getCardId(),trs.orElseThrow().getTransactionId());
        return cst.getFidelityCard().getTransactions();
     }
+
+
+
 }
