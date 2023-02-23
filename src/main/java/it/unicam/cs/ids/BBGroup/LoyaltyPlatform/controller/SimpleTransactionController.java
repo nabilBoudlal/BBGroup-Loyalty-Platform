@@ -10,7 +10,6 @@ import it.unicam.cs.ids.BBGroup.LoyaltyPlatform.service.TransactionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -60,6 +59,7 @@ public class SimpleTransactionController implements TransactionController{
 
     // A method that is called when a transaction is validated. It takes the card and transaction id as parameters and
     // returns the total points of the card.
+    @Override
     @PostMapping("/validateTransaction/{cardId}/{transactionId}")
     public int validateTransaction(@PathVariable Long cardId, @PathVariable Long transactionId) throws EntityNotFoundException, IdConflictException {
         Transaction transaction= transactionManager.getInstance(transactionId);
